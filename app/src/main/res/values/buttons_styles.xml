@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Button" parent="Base.Widget.AppCompat.Button" />
+
+    <style name="Button.Borderless" parent="Base.Widget.AppCompat.Button.Borderless" />
+
+    <!-- Базовый стиль кнопки с accent цветом !-->
+    <style name="Button.Accent">
+        <item name="android:textAppearance">@style/RobotoMedium</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/button_green_accent_ripple</item>
+    </style>
+
+
+</resources>

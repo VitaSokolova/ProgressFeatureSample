@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?android:attr/colorControlHighlight">
+
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <solid android:color="?android:attr/colorControlHighlight" />
+            <corners android:radius="@dimen/dp3" />
+        </shape>
+    </item>
+
+    <item>
+        <selector>
+            <item
+                android:state_enabled="false"
+                android:id="@android:id/background"
+                android:drawable="@drawable/accent_light_rounded_shape" />
+
+            <item
+                android:id="@android:id/background"
+                android:drawable="@drawable/accent_dark_rounded_shape" />
+        </selector>
+    </item>
+</ripple>
