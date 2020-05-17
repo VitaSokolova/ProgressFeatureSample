@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">ProgressFeatureSample</string>
+
+    <string-array name="education_array">
+        <item>Нет</item>
+        <item>Среднее</item>
+        <item>Средне специальное</item>
+        <item>Высшее</item>
+        <item>Аспирантура</item>
+    </string-array>
 </resources>

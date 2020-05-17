@@ -1,4 +1,4 @@
-package com.example.progressfeaturesample.interactors.common
+package com.example.progressfeaturesample.interactors.common.step
 
 class StepWithPosition<S : Step>(
     val step: S,

@@ -2,6 +2,7 @@ package com.example.progressfeaturesample.ui.screens.container
 
 import android.app.FragmentTransaction
 import com.example.progressfeaturesample.interactors.*
+import com.example.progressfeaturesample.ui.screens.about.AboutMeRoute
 import com.example.progressfeaturesample.ui.screens.education.EducationRoute
 import com.example.progressfeaturesample.ui.screens.experience.ExperienceRoute
 import com.example.progressfeaturesample.ui.screens.motivation.MotivationRoute
@@ -35,6 +36,7 @@ class MainActivityPresenter @Inject constructor(
                 is EducationStep -> EducationRoute()
                 is ExperienceStep -> ExperienceRoute()
                 is MotivationStep -> MotivationRoute()
+                is AboutMeStep -> AboutMeRoute()
             }
 
             if (stepWithPosition.position > currentPosition.position) {

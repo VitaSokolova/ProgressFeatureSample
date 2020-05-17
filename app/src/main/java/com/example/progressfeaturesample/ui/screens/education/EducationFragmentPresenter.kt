@@ -1,7 +1,8 @@
 package com.example.progressfeaturesample.ui.screens.education
 
+import com.example.progressfeaturesample.domain.Education
 import com.example.progressfeaturesample.interactors.ApplicationProgressInteractor
-import com.example.progressfeaturesample.interactors.EducationStep
+import com.example.progressfeaturesample.interactors.EducationStepOut
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -19,7 +20,13 @@ class EducationFragmentPresenter @Inject constructor(
 
     override fun onFirstLoad() {
         bm.onNextPressedAction bindTo {
-            progressInteractor.completeStep(EducationStep())
+            subscribeIoHandleError(progressInteractor.completeStep(
+                EducationStepOut(
+                    Education()
+                )
+            ),
+                {}
+            )
         }
     }
 }

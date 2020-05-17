@@ -1,4 +1,12 @@
 package com.example.progressfeaturesample.domain
 
-class PersonalInfo {
+import java.util.*
+
+class PersonalInfo(
+    val name: String,
+    val surname: String,
+    val birthday: Date,
+    val education: EducationType,
+    val workingExperience: Boolean
+) {
 }

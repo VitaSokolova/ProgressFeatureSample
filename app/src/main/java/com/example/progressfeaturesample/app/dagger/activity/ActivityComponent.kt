@@ -2,6 +2,7 @@ package com.example.progressfeaturesample.app.dagger.activity
 
 import android.content.Context
 import com.example.progressfeaturesample.app.dagger.AppComponent
+import com.example.progressfeaturesample.interactors.ApplicationDataInteractor
 import com.example.progressfeaturesample.interactors.ApplicationProgressInteractor
 import com.example.progressfeaturesample.ui.utils.StringsProvider
 import dagger.Component
@@ -30,4 +31,5 @@ interface ActivityComponent {
     fun context(): Context
     fun fragmentNavigator(): FragmentNavigator
     fun progressInteractor(): ApplicationProgressInteractor
+    fun dataInteractor(): ApplicationDataInteractor
 }

@@ -1,4 +1,3 @@
 package com.example.progressfeaturesample.domain
 
-class Motivation {
-}
+class Motivation(val text: String)

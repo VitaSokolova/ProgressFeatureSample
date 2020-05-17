@@ -1,7 +1,8 @@
 package com.example.progressfeaturesample.ui.screens.experience
 
+import com.example.progressfeaturesample.domain.WorkingExperience
 import com.example.progressfeaturesample.interactors.ApplicationProgressInteractor
-import com.example.progressfeaturesample.interactors.ExperienceStep
+import com.example.progressfeaturesample.interactors.ExperienceStepOut
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -19,7 +20,8 @@ class ExperienceFragmentPresenter @Inject constructor(
 
     override fun onFirstLoad() {
         bm.onNextPressedAction bindTo {
-            progressInteractor.completeStep(ExperienceStep())
+            subscribeIoHandleError(
+                progressInteractor.completeStep(ExperienceStepOut(WorkingExperience())), {})
         }
     }
 }

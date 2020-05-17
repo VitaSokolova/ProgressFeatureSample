@@ -4,7 +4,7 @@ import com.example.progressfeaturesample.interactors.common.Scenario
 
 class ApplicationScenario : Scenario<ApplicationSteps> {
 
-    override val steps: List<ApplicationSteps> = listOf(
+    override val steps: MutableList<ApplicationSteps> = mutableListOf(
         PersonalInfoStep(),
         EducationStep(),
         ExperienceStep(),
@@ -29,5 +29,20 @@ class ApplicationScenario : Scenario<ApplicationSteps> {
         if (stepNumber != 0 && stepNumber != -1) {
             currentStep = steps[stepNumber - 1]
         }
+    }
+
+    fun replaceStep(oldStep: ApplicationSteps, newStep: ApplicationSteps) {
+        val index = steps.indexOfFirst { it == oldStep }
+        if (index != -1) {
+            steps.removeAt(index)
+            steps.add(index, newStep)
+        } else {
+            error("${oldStep.javaClass.name} doesn't exist")
+        }
+
+    }
+
+    fun addStep(newStep: ApplicationSteps) {
+        steps.add(newStep)
     }
 }

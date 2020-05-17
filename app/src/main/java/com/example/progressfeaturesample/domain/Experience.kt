@@ -1,4 +1,6 @@
 package com.example.progressfeaturesample.domain
 
-class Experience {
-}
+sealed class Experience
+
+class WorkingExperience : Experience()
+class AboutMe(val text: String) : Experience()

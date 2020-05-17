@@ -1,31 +1,32 @@
-package com.example.progressfeaturesample.ui.screens.motivation
+package com.example.progressfeaturesample.ui.screens.about
 
-import com.example.progressfeaturesample.domain.Motivation
+import com.example.progressfeaturesample.domain.AboutMe
+import com.example.progressfeaturesample.interactors.AboutMeStepOut
 import com.example.progressfeaturesample.interactors.ApplicationProgressInteractor
-import com.example.progressfeaturesample.interactors.MotivationStepOut
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
 /**
- * Презентер [MotivationFragmentView].
+ * Презентер [AboutMeFragmentView].
  */
 @PerScreen
-class MotivationFragmentPresenter @Inject constructor(
-    private val bm: MotivationBindModel,
+class AboutMeFragmentPresenter @Inject constructor(
+    private val bm: AboutMeBindModel,
     private val progressInteractor: ApplicationProgressInteractor,
     basePresenterDependency: BasePresenterDependency
 ) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onFirstLoad() {
         bm.onNextPressedAction bindTo {
-            subscribeIoHandleError(
-                progressInteractor.completeStep(
-                    MotivationStepOut(
-                        Motivation("Mew")
-                    )
-                ), {})
+            subscribeIoHandleError(progressInteractor.completeStep(
+                AboutMeStepOut(
+                    AboutMe("I'm breathtaking")
+                )
+            ),
+                {}
+            )
         }
     }
 }

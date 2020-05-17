@@ -3,14 +3,58 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?android:attr/windowBackground"
-        android:gravity="center"
-        android:text="Personal"
-        android:textAppearance="@style/RobotoMedium.20"
-        android:textColor="?android:attr/textColorPrimary" />
+        android:layout_margin="@dimen/dp16"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Имя">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name_tf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Фамилия">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/surname_tf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <CheckBox
+            android:id="@+id/experience_cb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="У меня есть опыт работы"
+            android:textAppearance="@style/RobotoRegular.16" />
+
+    </LinearLayout>
+
+    <!--    <TextView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:background="?android:attr/windowBackground"-->
+    <!--        android:gravity="center"-->
+    <!--        android:text="Personal"-->
+    <!--        android:textAppearance="@style/RobotoMedium.20"-->
+    <!--        android:textColor="?android:attr/textColorPrimary" />-->
 
     <Button
         android:id="@+id/next_btn"
