@@ -12,49 +12,55 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Имя">
+            android:hint="@string/personal_info_name_hint">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/name_tf"
+                android:id="@+id/name_et"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Фамилия">
+            android:layout_marginTop="@dimen/dp8"
+            android:hint="@string/personal_info_surname_hint">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/surname_tf"
+                android:id="@+id/surname_et"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp8"
+            android:text="@string/personal_info_education_hint"
+            android:textAppearance="@style/RobotoRegular.12"
+            android:textColor="?android:attr/textColorSecondary" />
 
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginBottom="@dimen/dp8" />
 
         <CheckBox
             android:id="@+id/experience_cb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="У меня есть опыт работы"
+            android:layout_marginTop="@dimen/dp8"
+            android:paddingStart="@dimen/dp8"
+            android:text="@string/personal_info_experience_txt"
             android:textAppearance="@style/RobotoRegular.16" />
 
     </LinearLayout>
-
-    <!--    <TextView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:background="?android:attr/windowBackground"-->
-    <!--        android:gravity="center"-->
-    <!--        android:text="Personal"-->
-    <!--        android:textAppearance="@style/RobotoMedium.20"-->
-    <!--        android:textColor="?android:attr/textColorPrimary" />-->
 
     <Button
         android:id="@+id/next_btn"
@@ -63,6 +69,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_margin="@dimen/dp8"
-        android:text="Next" />
+        android:text="@string/next_btn" />
 
 </FrameLayout>

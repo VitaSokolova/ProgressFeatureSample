@@ -8,4 +8,14 @@
         <item>Высшее</item>
         <item>Аспирантура</item>
     </string-array>
+
+    <string name="next_btn">Далее</string>
+    <string name="ready_btn">Готово</string>
+
+    <string name="personal_info_name_hint">Имя</string>
+    <string name="personal_info_surname_hint">Фамилия</string>
+    <string name="personal_info_education_hint">Образование</string>
+    <string name="personal_info_experience_txt">У меня есть опыт работы</string>
+
+    <string name="about_me_hint">Обо мне</string>
 </resources>

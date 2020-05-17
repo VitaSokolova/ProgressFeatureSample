@@ -2,6 +2,8 @@ package com.example.progressfeaturesample.ui.screens.education
 
 import com.example.progressfeaturesample.domain.Education
 import com.example.progressfeaturesample.interactors.ApplicationProgressInteractor
+import com.example.progressfeaturesample.interactors.EducationStep
+import com.example.progressfeaturesample.interactors.EducationStepIn
 import com.example.progressfeaturesample.interactors.EducationStepOut
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
@@ -28,5 +30,15 @@ class EducationFragmentPresenter @Inject constructor(
                 {}
             )
         }
+
+        //т.к. данные обязаны прийти из предыдущего шага, это быстро и не трубуют доп. запросов
+        subscribe(
+            progressInteractor.getDataForStep(EducationStep())
+                .map { it as EducationStepIn }, // пока не придумала, как обойтись без каста
+            {
+                bm.educationTypeState.accept(it.educationType)
+            },
+            {}
+        )
     }
 }

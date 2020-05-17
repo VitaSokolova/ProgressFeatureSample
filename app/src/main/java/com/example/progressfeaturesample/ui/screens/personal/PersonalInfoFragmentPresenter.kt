@@ -33,14 +33,16 @@ class PersonalInfoFragmentPresenter @Inject constructor(
                     PersonalInfo(
                         name,
                         surname,
-                        Date(),
+                        Date(), // тут у меня уже кончилось терпение верстать поля ради примера
                         education,
                         experience
                     )
                 }
             )
         ) { _, info: PersonalInfo -> info } bindTo {
-            subscribeIoHandleError(progressInteractor.completeStep(PersonalInfoStepOut(it)), {})
+            subscribeIoHandleError(progressInteractor.completeStep(PersonalInfoStepOut(it))) {
+                // если нужны какие-то действия на onCompleted()
+            }
         }
     }
 }

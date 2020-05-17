@@ -36,13 +36,25 @@ class ApplicationScenario : Scenario<ApplicationSteps> {
         if (index != -1) {
             steps.removeAt(index)
             steps.add(index, newStep)
-        } else {
-            error("${oldStep.javaClass.name} doesn't exist")
         }
-
     }
 
-    fun addStep(newStep: ApplicationSteps) {
-        steps.add(newStep)
+    fun removeStep(step: ApplicationSteps) {
+        val index = steps.indexOfFirst { it == step }
+        if (index != -1) {
+            steps.removeAt(index)
+        } else {
+            error("${step.javaClass.name} doesn't exist")
+        }
+    }
+
+    fun addStep(index: Int, newStep: ApplicationSteps) {
+        if (!isStepExist(newStep)) {
+            steps.add(index, newStep)
+        }
+    }
+
+    fun isStepExist(step: ApplicationSteps): Boolean {
+        return steps.any { it == step }
     }
 }

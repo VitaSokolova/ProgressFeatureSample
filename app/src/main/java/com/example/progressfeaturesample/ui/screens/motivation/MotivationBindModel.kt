@@ -1,8 +1,11 @@
 package com.example.progressfeaturesample.ui.screens.motivation
 
+import com.example.progressfeaturesample.domain.Motivation
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.utilktx.data.wrapper.loadable.LoadableData
 import javax.inject.Inject
 
 /**
@@ -11,4 +14,6 @@ import javax.inject.Inject
 @PerScreen
 class MotivationBindModel @Inject constructor() : BindModel {
     val onNextPressedAction = Action<Unit>()
+
+    val motivationVariantsState = State<LoadableData<List<Motivation>>>()
 }

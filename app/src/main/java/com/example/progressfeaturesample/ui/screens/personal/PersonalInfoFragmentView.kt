@@ -56,12 +56,11 @@ class PersonalInfoFragmentView : BaseRxFragmentView() {
         experience_cb.setOnCheckedChangeListener { _, isChecked ->
             bm.experienceCheckedAction.accept(isChecked)
         }
-        name_tf.textChanges() bindTo { bm.nameAction.accept(it.toString()) }
-        surname_tf.textChanges() bindTo { bm.surnameAction.accept(it.toString()) }
+        name_et.textChanges() bindTo { bm.nameAction.accept(it.toString()) }
+        surname_et.textChanges() bindTo { bm.surnameAction.accept(it.toString()) }
         next_btn.setOnClickListener { bm.onNextPressedAction.accept() }
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
             }
 
             override fun onItemSelected(
@@ -70,6 +69,7 @@ class PersonalInfoFragmentView : BaseRxFragmentView() {
                 position: Int,
                 id: Long
             ) {
+                // немного легкомысленный подход  ¯\_(ツ)_/¯
                 val education = EducationType.values()[position]
                 bm.educationSelectedAction.accept(education)
             }

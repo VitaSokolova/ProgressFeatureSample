@@ -13,6 +13,8 @@
         <item name="android:textColorSecondary">@color/gray</item>
         <item name="android:textColorTertiary">@android:color/white</item>
         <item name="android:windowBackground">@android:color/white</item>
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.FilledBox
+        </item>
     </style>
 
     <style name="ProgressIndicatorStyle">

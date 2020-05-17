@@ -7,7 +7,7 @@
 
     <!-- Базовый стиль кнопки с accent цветом !-->
     <style name="Button.Accent">
-        <item name="android:textAppearance">@style/RobotoMedium</item>
+        <item name="android:textAppearance">@style/RobotoMedium.16</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@drawable/button_green_accent_ripple</item>
     </style>
