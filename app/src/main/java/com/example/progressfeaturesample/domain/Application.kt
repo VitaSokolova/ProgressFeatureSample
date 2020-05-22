@@ -1,5 +1,10 @@
 package com.example.progressfeaturesample.domain
 
+import ru.surfstudio.android.core.mvp.binding.rx.extensions.Optional
+
+/**
+ * Модель заявления
+ */
 class Application(
     val personal: PersonalInfo,
     val education: Education,
@@ -8,18 +13,41 @@ class Application(
 ) {
 
     class Builder {
-        lateinit var personal: PersonalInfo
-        lateinit var education: Education
-        lateinit var experience: Experience
-        lateinit var motivation: Motivation
+        private var personal: Optional<PersonalInfo> = Optional.empty()
+        private var education: Optional<Education> = Optional.empty()
+        private var experience: Optional<Experience> = Optional.empty()
+        private var motivation: Optional<Motivation> = Optional.empty()
 
-        fun personalInfo(value: PersonalInfo) = apply { personal = value }
-        fun education(value: Education) = apply { education = value }
-        fun experience(value: Experience) = apply { experience = value }
-        fun motivation(value: Motivation) = apply { motivation = value }
+        fun personalInfo(value: PersonalInfo) = apply { personal = Optional.of(value) }
+        fun education(value: Education) = apply { education = Optional.of(value) }
+        fun experience(value: Experience) = apply { experience = Optional.of(value) }
+        fun motivation(value: Motivation) = apply { motivation = Optional.of(value) }
+
+        fun getPersonalInfo(): PersonalInfo = personal.get()
+        fun getEducation(): Education = education.get()
+        fun getExperience(): Experience = experience.get()
+        fun getMotivation(): Motivation = motivation.get()
 
         fun build(): Application {
-            return Application(personal, education, experience, motivation)
+            return try {
+                Application(
+                    personal.get(),
+                    education.get(),
+                    experience.get(),
+                    motivation.get()
+                )
+            } catch (e: NoSuchElementException) {
+                throw ApplicationIsNotFilled(
+                    """Some fields aren't filled in application
+                        personal = {${personal.getOrNull()}}
+                        education = {${education.getOrNull()}}
+                        experience = {${experience.getOrNull()}}
+                        motivation = {${motivation.getOrNull()}}
+                    """.trimMargin()
+                )
+            }
         }
     }
 }
+
+class ApplicationIsNotFilled(msg: String) : Throwable(msg)

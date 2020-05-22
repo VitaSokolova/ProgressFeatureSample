@@ -2,28 +2,34 @@ package com.example.progressfeaturesample.interactors
 
 import com.example.progressfeaturesample.domain.Application
 import com.example.progressfeaturesample.domain.EducationType
-import com.example.progressfeaturesample.interactors.common.ProgressInteractor
-import com.example.progressfeaturesample.interactors.common.StepInDataResolver
-import com.example.progressfeaturesample.interactors.common.StepOutDataResolver
+import com.example.progressfeaturesample.interactors.common.*
 import io.reactivex.Completable
 import io.reactivex.Single
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import javax.inject.Inject
 
+/**
+ * Интерактор фичи подачи заявления
+ */
 @PerApplication
 class ApplicationProgressInteractor @Inject constructor(
-    val dataInteractor: ApplicationDataInteractor,
+    val dataRepository: ApplicationDataRepository,
     schedulersProvider: SchedulersProvider
 ) : ProgressInteractor<ApplicationSteps, ApplicationStepIn, ApplicationStepOut>(
     schedulersProvider
 ) {
-    override val scenario = ApplicationScenario()
-
     override val stepInDataResolver = ApplicationStepInDataResolver()
     override val stepOutDataResolver = ApplicationStepOutDataResolver()
 
-    val builder = Application.Builder()
+    // билдер, для построения заявки
+    private val builder = Application.Builder()
+
+    private val applicationStepsManager = MutableStepsManager(
+        ApplicationScenario()
+    )
+
+    override fun getStepManager(): StepsManager<ApplicationSteps> = applicationStepsManager
 
     fun initScenario() = notifyStepChanges()
 
@@ -32,11 +38,19 @@ class ApplicationProgressInteractor @Inject constructor(
 
         override fun resolveStepData(step: ApplicationSteps): Single<ApplicationStepIn> {
             return when (step) {
-                is EducationStep -> Single.just(EducationStepIn(builder.personal.education))
-                is MotivationStep -> dataInteractor.loadMotivationVariants().map {
-                    MotivationStepIn(it)
-                }
+                is EducationStep -> getDataForEducationStep()
+                is MotivationStep -> getDataForMotivationStep()
                 else -> Single.just(EmptyStepIn())
+            }
+        }
+
+        fun getDataForEducationStep(): Single<ApplicationStepIn> {
+            return Single.just(EducationStepIn(builder.getPersonalInfo().education))
+        }
+
+        fun getDataForMotivationStep(): Single<ApplicationStepIn> {
+            return dataRepository.loadMotivationVariants().map {
+                MotivationStepIn(it)
             }
         }
     }
@@ -56,7 +70,7 @@ class ApplicationProgressInteractor @Inject constructor(
                     is AboutMeStepOut -> builder.experience(step.info)
                     is MotivationStepOut -> {
                         builder.motivation(step.motivation)
-                        dataInteractor.loadApplication(builder.build())
+                        dataRepository.loadApplication(builder.build())
                     }
                 }
             }
@@ -70,9 +84,9 @@ class ApplicationProgressInteractor @Inject constructor(
          */
         private fun applyEducationToScenario(education: EducationType) {
             if (education == EducationType.NO_EDUCATION) {
-                scenario.removeStep(EducationStep())
+                applicationStepsManager.removeStep(EducationStep())
             } else {
-                scenario.addStep(1, EducationStep())
+                applicationStepsManager.addStep(1, EducationStep())
             }
         }
 
@@ -84,9 +98,9 @@ class ApplicationProgressInteractor @Inject constructor(
          */
         private fun applyExperienceToScenario(hasExperience: Boolean) {
             if (hasExperience) {
-                scenario.replaceStep(AboutMeStep(), ExperienceStep())
+                applicationStepsManager.replaceStep(AboutMeStep(), ExperienceStep())
             } else {
-                scenario.replaceStep(ExperienceStep(), AboutMeStep())
+                applicationStepsManager.replaceStep(ExperienceStep(), AboutMeStep())
             }
         }
     }

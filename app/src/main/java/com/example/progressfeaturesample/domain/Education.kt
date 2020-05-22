@@ -1,8 +1,14 @@
 package com.example.progressfeaturesample.domain
 
-class Education {
+/**
+ * Информация об образовании
+ */
+class Education() {
 }
 
+/**
+ * Виды образования
+ */
 enum class EducationType {
     NO_EDUCATION,
     SCHOOL,

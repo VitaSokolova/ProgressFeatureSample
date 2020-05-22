@@ -18,4 +18,5 @@
     <string name="personal_info_experience_txt">У меня есть опыт работы</string>
 
     <string name="about_me_hint">Обо мне</string>
+    <string name="about_me_header_text">Расскажите немного о себе и любом релевантном опыте</string>
 </resources>

@@ -2,17 +2,9 @@ package com.example.progressfeaturesample.interactors.common
 
 import com.example.progressfeaturesample.interactors.common.step.Step
 
+/**
+ * Интерфейс, которорому должны удоалетворять все классы, описывающие порядок шагов в фиче
+ */
 interface Scenario<S : Step> {
-
-    val steps: MutableList<S>
-    var currentStep: S
-
-    fun getCurrentStepNumber(): Int
-
-    fun completeStep(step: S)
-
-    /**
-     * Шаг назад в сценарии
-     */
-    fun backStep()
+    val steps: List<S>
 }

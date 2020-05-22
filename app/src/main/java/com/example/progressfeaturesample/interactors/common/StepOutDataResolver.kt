@@ -5,7 +5,7 @@ import com.example.progressfeaturesample.interactors.common.step.StepOutData
 import io.reactivex.Completable
 
 /**
- * Определяет исходящие данные для шага
+ * Сущность, обрабатывающая выходные данные
  */
 interface StepOutDataResolver<O : StepOutData<out Step>> {
 

@@ -10,51 +10,53 @@ import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
+/**
+ * Базовый класс для интеракторов пошаговых фич
+ */
 abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData<S>>(val schedulersProvider: SchedulersProvider) {
 
-    protected abstract val scenario: Scenario<S>
+    // сущность, отвечающая за получение входных данных
     protected abstract val stepInDataResolver: StepInDataResolver<S, I>
+    // сущность, отвечающая за сохранение выходных данных
     protected abstract val stepOutDataResolver: StepOutDataResolver<O>
 
-    protected val stepOrderPublishSubject = BehaviorSubject.create<Int>()
-    val stepOrderObservable = stepOrderPublishSubject.hide()
-
     protected val stepChangeSubject = BehaviorSubject.create<StepWithPosition<S>>()
+    // Observable, на который можно подписаться, чтобы изнать о переходе на другой шаг
     val stepChangeObservable: Observable<StepWithPosition<S>> = stepChangeSubject.hide()
 
+    // сущность, отвечающая за управление составом шагов и переходы
+    abstract fun getStepManager(): StepsManager<S>
 
-    open fun getDataForStep(step: S): Single<I> =
-        stepInDataResolver.resolveStepData(step)
+    /**
+     * Возвращает входные данные для шага
+     */
+    open fun getDataForStep(step: S): Single<I> = stepInDataResolver.resolveStepData(step)
 
+    /**
+     * Сохраняет выходные данные шага
+     */
     open fun completeStep(stepOut: O): Completable {
         return stepOutDataResolver.resolveStep(stepOut).doOnComplete {
-            scenario.completeStep(stepOut.step)
+            getStepManager().completeStep(stepOut.step)
             notifyStepChanges()
         }
     }
 
     /**
-     * Перейти на предыдущий шаг
+     * Переход на предыдущий шаг
      */
-    open fun toPreviousStep() =
-        scenario.apply {
-            backStep()
-            notifyStepChanges()
-        }
+    open fun toPreviousStep() {
+        getStepManager().backStep()
+        notifyStepChanges()
+    }
 
 
     /**
-     * обновление данных о сценарии для подписчиков
+     * Обновление данных о сценарии для подписчиков
      */
     protected fun notifyStepChanges() {
-        scenario.let {
-            stepChangeSubject.onNext(
-                StepWithPosition(
-                    it.currentStep,
-                    it.getCurrentStepNumber(),
-                    it.steps.count()
-                )
-            )
-        }
+        stepChangeSubject.onNext(
+            getStepManager().getCurrentStep()
+        )
     }
 }
