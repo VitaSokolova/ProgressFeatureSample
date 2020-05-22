@@ -43,6 +43,7 @@ class EducationFragmentView : BaseRxFragmentView() {
             faculty_til.isVisible = it.isHigherEducation()
             specialty_til.isVisible = it.isHigherEducation() || it == EducationType.VOCATIONAL
             degree_til.isVisible = it == EducationType.POST_GRADUATE
+            others_tv.isVisible = it == EducationType.POST_GRADUATE
         }
     }
 }
