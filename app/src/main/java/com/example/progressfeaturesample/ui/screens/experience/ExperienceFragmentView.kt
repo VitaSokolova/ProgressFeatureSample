@@ -1,15 +1,16 @@
 package com.example.progressfeaturesample.ui.screens.experience
 
 import android.os.Bundle
-import androidx.core.os.bundleOf
-import android.view.View
-import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxFragmentView
-import com.example.progressfeaturesample.R
-import javax.inject.Inject
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.os.bundleOf
+import com.example.progressfeaturesample.R
 import com.example.progressfeaturesample.ui.screens.experience.di.ExperienceScreenConfigurator
 import kotlinx.android.synthetic.main.fragment_experience.*
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxFragmentView
+import javax.inject.Inject
+
 
 /**
  * Вью TODO
@@ -34,6 +35,15 @@ class ExperienceFragmentView : BaseRxFragmentView() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?, viewRecreated: Boolean) {
         bind()
+
+        experience_add_one_more_tv.setOnClickListener {
+            val toast = Toast.makeText(
+                requireContext(),
+                "Это уже слишком для семпла'!",
+                Toast.LENGTH_SHORT
+            )
+            toast.show()
+        }
     }
 
     private fun bind() {

@@ -18,8 +18,15 @@ class ApplicationDataRepository @Inject constructor() {
      * Имитирует загрузку списка причин, почему пользователя заинтересовала вакансия
      */
     fun loadMotivationVariants(): Single<List<Motivation>> =
-        Single.just(listOf(Motivation("Хочу делать крутые проекты"))).delay(
-            3L, TimeUnit.SECONDS
+        Single.just(
+            listOf(
+                Motivation("Зарплата"),
+                Motivation("Локация"),
+                Motivation("Бесплатная еда"),
+                Motivation("Крутые проекты")
+            )
+        ).delay(
+            1L, TimeUnit.SECONDS
         )
 
     /**

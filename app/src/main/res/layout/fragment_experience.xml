@@ -4,13 +4,102 @@
     android:background="?android:attr/windowBackground"
     android:orientation="vertical">
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Experience"
-        android:textAppearance="@style/RobotoMedium.20"
-        android:textColor="?android:attr/textColorPrimary" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp16"
+            android:animateLayoutChanges="true"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/dp56">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp16"
+                android:text="@string/experience_txt"
+                android:textAppearance="@style/RobotoRegular.16"
+                android:textColor="?android:attr/textColorSecondary" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/experience_company_txt">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/place_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/position_til"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/experience_position_txt">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/position_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/experience_start_txt">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/start_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@android:drawable/ic_menu_my_calendar"
+                    android:inputType="date" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/experience_end_txt">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/end_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@android:drawable/ic_menu_my_calendar"
+                    android:inputType="date" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/experience_add_one_more_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp8"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_add"
+                android:drawablePadding="@dimen/dp16"
+                android:drawableTint="?attr/colorAccent"
+                android:focusable="true"
+                android:paddingTop="@dimen/dp8"
+                android:paddingBottom="@dimen/dp8"
+                android:text="@string/experience_add_txt"
+                android:textAppearance="@style/RobotoRegular.16"
+                android:textColor="?android:attr/textColorSecondary" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <Button
         android:id="@+id/next_btn"
@@ -19,6 +108,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_margin="@dimen/dp8"
-        android:text="Next" />
+        android:text="@string/next_btn" />
 
 </FrameLayout>

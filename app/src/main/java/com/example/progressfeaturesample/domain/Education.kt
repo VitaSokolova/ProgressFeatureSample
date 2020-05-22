@@ -14,5 +14,7 @@ enum class EducationType {
     SCHOOL,
     VOCATIONAL,
     HIGHER,
-    POST_GRADUATE
+    POST_GRADUATE;
+
+    fun isHigherEducation() = this == HIGHER || this == POST_GRADUATE
 }

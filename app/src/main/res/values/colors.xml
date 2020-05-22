@@ -6,6 +6,7 @@
     <color name="gray">#999999</color>
     <color name="gray_dark">#262626</color>
     <color name="colorAccentLight">#BFEBF3</color>
+    <color name="colorAccentVeryLight">#EDF9FC</color>
 
     <color name="colorPrimaryThemeLight">#F5F5F5</color>
 

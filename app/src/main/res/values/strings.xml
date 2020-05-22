@@ -17,6 +17,22 @@
     <string name="personal_info_education_hint">Образование</string>
     <string name="personal_info_experience_txt">У меня есть опыт работы</string>
 
+    <string name="education_txt">Образование</string>
+    <string name="education_place_txt">Название учебного заведения</string>
+    <string name="education_faculty_txt">Факультет</string>
+    <string name="education_specialty_txt">Специальность</string>
+    <string name="education_start_date_txt">Начало обучения</string>
+    <string name="education_end_date_txt">Конец обучения</string>
+    <string name="education_others_txt">Прочее</string>
+    <string name="education_academic_degree_txt">Степень</string>
+
+    <string name="experience_txt">Место работы</string>
+    <string name="experience_company_txt">Название организации</string>
+    <string name="experience_position_txt">Должность</string>
+    <string name="experience_start_txt">Начало работы</string>
+    <string name="experience_end_txt">Окончание работы</string>
+    <string name="experience_add_txt">Добавить ещё одно место</string>
+
     <string name="about_me_hint">Обо мне</string>
     <string name="about_me_header_text">Расскажите немного о себе и любом релевантном опыте</string>
 </resources>

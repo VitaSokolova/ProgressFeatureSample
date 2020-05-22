@@ -29,6 +29,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
 }
 
 dependencies {
@@ -41,6 +45,8 @@ dependencies {
 
     implementation "ru.surfstudio.android:core-mvp-binding:0.4.0"
     implementation "ru.surfstudio.android:dagger-scope:0.4.0"
+
+    implementation 'me.zhanghai.android.materialprogressbar:library:1.6.1'
 
 
     /* Dagger2 - We are going to use dagger.android which includes

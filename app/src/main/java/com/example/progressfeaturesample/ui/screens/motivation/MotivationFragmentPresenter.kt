@@ -10,6 +10,7 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.utilktx.data.wrapper.loadable.LoadStatus
 import ru.surfstudio.android.utilktx.data.wrapper.loadable.LoadableData
+import ru.surfstudio.android.utilktx.data.wrapper.selectable.SelectableData
 import javax.inject.Inject
 
 /**
@@ -60,7 +61,7 @@ class MotivationFragmentPresenter @Inject constructor(
     private fun changeMotivationState(status: LoadStatus, data: List<Motivation> = emptyList()) {
         bm.motivationVariantsState.accept(
             LoadableData(
-                data,
+                data.map { SelectableData(it, false) },
                 status
             )
         )

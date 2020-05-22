@@ -1,18 +1,19 @@
 package com.example.progressfeaturesample.ui.screens.education
 
 import android.os.Bundle
-import androidx.core.os.bundleOf
-import android.view.View
-import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxFragmentView
-import com.example.progressfeaturesample.R
-import javax.inject.Inject
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
+import com.example.progressfeaturesample.R
+import com.example.progressfeaturesample.domain.EducationType
 import com.example.progressfeaturesample.ui.screens.education.di.EducationScreenConfigurator
 import kotlinx.android.synthetic.main.fragment_education.*
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxFragmentView
+import javax.inject.Inject
 
 /**
- * Вью TODO
+ * Фрагмент с информацией об образовании
  */
 class EducationFragmentView : BaseRxFragmentView() {
 
@@ -38,5 +39,10 @@ class EducationFragmentView : BaseRxFragmentView() {
 
     private fun bind() {
         next_btn.setOnClickListener { bm.onNextPressedAction.accept() }
+        bm.educationTypeState.bindTo {
+            faculty_til.isVisible = it.isHigherEducation()
+            specialty_til.isVisible = it.isHigherEducation() || it == EducationType.VOCATIONAL
+            degree_til.isVisible = it == EducationType.POST_GRADUATE
+        }
     }
 }

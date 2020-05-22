@@ -33,8 +33,7 @@ class ApplicationProgressInteractor @Inject constructor(
 
     fun initScenario() = notifyStepChanges()
 
-    inner class ApplicationStepInDataResolver :
-        StepInDataResolver<ApplicationSteps, ApplicationStepIn> {
+    inner class ApplicationStepInDataResolver : StepInDataResolver<ApplicationSteps, ApplicationStepIn> {
 
         override fun resolveStepData(step: ApplicationSteps): Single<ApplicationStepIn> {
             return when (step) {
