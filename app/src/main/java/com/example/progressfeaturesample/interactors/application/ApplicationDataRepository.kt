@@ -1,4 +1,4 @@
-package com.example.progressfeaturesample.interactors
+package com.example.progressfeaturesample.interactors.application
 
 import com.example.progressfeaturesample.domain.Application
 import com.example.progressfeaturesample.domain.Motivation

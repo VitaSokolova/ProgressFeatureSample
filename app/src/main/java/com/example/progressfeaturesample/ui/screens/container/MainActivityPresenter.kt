@@ -1,7 +1,8 @@
 package com.example.progressfeaturesample.ui.screens.container
 
 import android.app.FragmentTransaction
-import com.example.progressfeaturesample.interactors.*
+import com.example.progressfeaturesample.interactors.application.*
+import com.example.progressfeaturesample.interactors.application.steps.*
 import com.example.progressfeaturesample.ui.screens.about.AboutMeRoute
 import com.example.progressfeaturesample.ui.screens.education.EducationRoute
 import com.example.progressfeaturesample.ui.screens.experience.ExperienceRoute
@@ -26,7 +27,7 @@ class MainActivityPresenter @Inject constructor(
 ) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onFirstLoad() {
-        progressInteractor.initScenario()
+        progressInteractor.initProgressFeature()
 
         progressInteractor.stepChangeObservable.withLatestFrom(
             bm.currentStepCount.observable

@@ -1,11 +1,11 @@
-package com.example.progressfeaturesample.interactors
+package com.example.progressfeaturesample.interactors.application
 
 import com.example.progressfeaturesample.domain.Application
+import com.example.progressfeaturesample.interactors.application.steps.*
 import com.example.progressfeaturesample.interactors.common.ProgressInteractor
 import io.reactivex.Completable
 import io.reactivex.Single
 import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import javax.inject.Inject
 
 /**
@@ -13,26 +13,29 @@ import javax.inject.Inject
  */
 @PerApplication
 class ApplicationProgressInteractor @Inject constructor(
-    val dataRepository: ApplicationDataRepository,
-    schedulersProvider: SchedulersProvider
-) : ProgressInteractor<ApplicationSteps, ApplicationStepIn, ApplicationStepOut>(
-    schedulersProvider
-) {
+    private val dataRepository: ApplicationDataRepository
+) : ProgressInteractor<ApplicationSteps, ApplicationStepIn, ApplicationStepOut>() {
+
+    // сценарий оформления
     override val scenario = ApplicationScenario()
 
     // билдер, для построения заявки
     private val builder = Application.Builder()
 
-    fun initScenario() = notifyStepChanges()
-
+    /**
+     * Метод получения входной информации для шага
+     */
     override fun resolveStepInData(step: ApplicationSteps): Single<ApplicationStepIn> {
         return when (step) {
             is EducationStep -> getDataForEducationStep()
             is MotivationStep -> getDataForMotivationStep()
-            else -> Single.just(EmptyStepIn())
+            else -> Single.just(EmptyStepIn)
         }
     }
 
+    /**
+     * Сохранение выходных данных шага в билдер и отправка заявления
+     */
     override fun resolveStepOutData(step: ApplicationStepOut): Completable {
         return Completable.fromAction {
             when (step) {
@@ -49,7 +52,11 @@ class ApplicationProgressInteractor @Inject constructor(
     }
 
     private fun getDataForEducationStep(): Single<ApplicationStepIn> {
-        return Single.just(EducationStepIn(builder.getPersonalInfo().education))
+        return Single.just(
+            EducationStepIn(
+                builder.getPersonalInfo().education
+            )
+        )
     }
 
     private fun getDataForMotivationStep(): Single<ApplicationStepIn> {

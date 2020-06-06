@@ -1,6 +1,6 @@
 package com.example.progressfeaturesample.ui.screens.container
 
-import com.example.progressfeaturesample.interactors.ApplicationSteps
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationSteps
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel

@@ -1,10 +1,10 @@
 package com.example.progressfeaturesample.ui.screens.education
 
 import com.example.progressfeaturesample.domain.Education
-import com.example.progressfeaturesample.interactors.ApplicationProgressInteractor
-import com.example.progressfeaturesample.interactors.EducationStep
-import com.example.progressfeaturesample.interactors.EducationStepIn
-import com.example.progressfeaturesample.interactors.EducationStepOut
+import com.example.progressfeaturesample.interactors.application.ApplicationProgressInteractor
+import com.example.progressfeaturesample.interactors.application.steps.EducationStep
+import com.example.progressfeaturesample.interactors.application.steps.EducationStepIn
+import com.example.progressfeaturesample.interactors.application.steps.EducationStepOut
 import com.example.progressfeaturesample.ui.utils.filter
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency

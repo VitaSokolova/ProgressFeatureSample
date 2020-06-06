@@ -8,31 +8,51 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
-import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 /**
  * Базовый класс для интеракторов пошаговых фич
+ * S - входной шаг
+ * I - входные данные для шагов
+ * O - выходные данные для шагов
  */
-abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData<S>>(val schedulersProvider: SchedulersProvider) {
+abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData<S>>() {
 
-    // сущность, отвечающая за управление составом шагов и переходы
+    // сущность, отвечающая за состав и порядок шагов
     protected abstract val scenario: Scenario<S, O>
 
     private val stepChangeSubject = BehaviorSubject.create<StepWithPosition<S>>()
 
-    // Observable, на который можно подписаться, чтобы изнать о переходе на другой шаг
+    // Observable, на который можно подписаться, чтобы узнать о переходе на другой шаг
     val stepChangeObservable: Observable<StepWithPosition<S>> = stepChangeSubject.hide()
 
+    // текущий активный шаг
     private var currentStepIndex: Int = 0
 
-    protected abstract fun resolveStepOutData(step: O): Completable
-
+    /**
+     * Метод получения входной информации для шага
+     */
     protected abstract fun resolveStepInData(step: S): Single<I>
 
+    /**
+     * Метод обработки выходной информации для шага
+     */
+    protected abstract fun resolveStepOutData(step: O): Completable
+
+    /**
+     * Инициализация работы интерактора
+     */
+    open fun initProgressFeature(){
+        currentStepIndex = 0
+        notifyStepChanges()
+    }
+
+    /**
+     * Предоставление входные параметров для шага
+     */
     fun getDataForStep(step: S): Single<I> = resolveStepInData(step)
 
     /**
-     * Сохраняет выходные данные шага
+     * Сохранение выходных данные шага
      */
     fun completeStep(stepOut: O): Completable {
         return resolveStepOutData(stepOut).doOnComplete {
@@ -49,7 +69,7 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData<S>>(
     /**
      * Переход на предыдущий шаг
      */
-    open fun toPreviousStep() {
+    fun toPreviousStep() {
         if (currentStepIndex != 0 && currentStepIndex != -1) {
             currentStepIndex -= 1
         }
@@ -60,7 +80,7 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData<S>>(
     /**
      * Обновление данных о сценарии для подписчиков
      */
-    protected fun notifyStepChanges() {
+    private fun notifyStepChanges() {
         stepChangeSubject.onNext(
             StepWithPosition(
                 scenario.steps[currentStepIndex],

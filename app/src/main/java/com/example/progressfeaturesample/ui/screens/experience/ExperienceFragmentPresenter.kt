@@ -1,8 +1,8 @@
 package com.example.progressfeaturesample.ui.screens.experience
 
 import com.example.progressfeaturesample.domain.WorkingExperience
-import com.example.progressfeaturesample.interactors.ApplicationProgressInteractor
-import com.example.progressfeaturesample.interactors.ExperienceStepOut
+import com.example.progressfeaturesample.interactors.application.ApplicationProgressInteractor
+import com.example.progressfeaturesample.interactors.application.steps.ExperienceStepOut
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen

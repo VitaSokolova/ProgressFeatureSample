@@ -1,8 +1,8 @@
 package com.example.progressfeaturesample.ui.screens.personal
 
 import com.example.progressfeaturesample.domain.PersonalInfo
-import com.example.progressfeaturesample.interactors.ApplicationProgressInteractor
-import com.example.progressfeaturesample.interactors.PersonalInfoStepOut
+import com.example.progressfeaturesample.interactors.application.ApplicationProgressInteractor
+import com.example.progressfeaturesample.interactors.application.steps.PersonalInfoStepOut
 import io.reactivex.Observable
 import io.reactivex.functions.Function4
 import io.reactivex.rxkotlin.withLatestFrom
@@ -41,7 +41,9 @@ class PersonalInfoFragmentPresenter @Inject constructor(
             )
         ) { _, info: PersonalInfo -> info } bindTo {
             subscribeIoHandleError(progressInteractor.completeStep(
-                PersonalInfoStepOut(it)
+                PersonalInfoStepOut(
+                    it
+                )
             )) {
                 // если нужны какие-то действия на onCompleted()
             }

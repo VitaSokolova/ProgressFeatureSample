@@ -2,8 +2,8 @@ package com.example.progressfeaturesample.app.dagger.activity
 
 import android.content.Context
 import com.example.progressfeaturesample.app.dagger.AppComponent
-import com.example.progressfeaturesample.interactors.ApplicationDataRepository
-import com.example.progressfeaturesample.interactors.ApplicationProgressInteractor
+import com.example.progressfeaturesample.interactors.application.ApplicationDataRepository
+import com.example.progressfeaturesample.interactors.application.ApplicationProgressInteractor
 import com.example.progressfeaturesample.ui.utils.StringsProvider
 import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
