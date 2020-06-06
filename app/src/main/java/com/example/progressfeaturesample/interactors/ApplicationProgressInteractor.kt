@@ -2,7 +2,6 @@ package com.example.progressfeaturesample.interactors
 
 import com.example.progressfeaturesample.domain.Application
 import com.example.progressfeaturesample.interactors.common.ProgressInteractor
-import com.example.progressfeaturesample.interactors.common.StepsManager
 import io.reactivex.Completable
 import io.reactivex.Single
 import ru.surfstudio.android.dagger.scope.PerApplication
@@ -19,10 +18,10 @@ class ApplicationProgressInteractor @Inject constructor(
 ) : ProgressInteractor<ApplicationSteps, ApplicationStepIn, ApplicationStepOut>(
     schedulersProvider
 ) {
+    override val scenario = ApplicationScenario()
+
     // билдер, для построения заявки
     private val builder = Application.Builder()
-    private val scenario = ApplicationScenario()
-    override val stepManager: StepsManager<ApplicationSteps, ApplicationStepOut> = StepsManager(scenario)
 
     fun initScenario() = notifyStepChanges()
 

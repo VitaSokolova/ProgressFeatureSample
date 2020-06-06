@@ -16,12 +16,14 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData<S>>(val schedulersProvider: SchedulersProvider) {
 
     // сущность, отвечающая за управление составом шагов и переходы
-    protected abstract val stepManager: StepsManager<S, O>
+    protected abstract val scenario: Scenario<S, O>
 
     private val stepChangeSubject = BehaviorSubject.create<StepWithPosition<S>>()
 
     // Observable, на который можно подписаться, чтобы изнать о переходе на другой шаг
     val stepChangeObservable: Observable<StepWithPosition<S>> = stepChangeSubject.hide()
+
+    private var currentStepIndex: Int = 0
 
     protected abstract fun resolveStepOutData(step: O): Completable
 
@@ -34,7 +36,12 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData<S>>(
      */
     fun completeStep(stepOut: O): Completable {
         return resolveStepOutData(stepOut).doOnComplete {
-            stepManager.completeStep(stepOut)
+            scenario.completeStep(stepOut)
+
+            if (currentStepIndex != scenario.steps.lastIndex && currentStepIndex != -1) {
+                currentStepIndex += 1
+            }
+
             notifyStepChanges()
         }
     }
@@ -43,7 +50,9 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData<S>>(
      * Переход на предыдущий шаг
      */
     open fun toPreviousStep() {
-        stepManager.backStep()
+        if (currentStepIndex != 0 && currentStepIndex != -1) {
+            currentStepIndex -= 1
+        }
         notifyStepChanges()
     }
 
@@ -53,7 +62,11 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData<S>>(
      */
     protected fun notifyStepChanges() {
         stepChangeSubject.onNext(
-            stepManager.getCurrentStep()
+            StepWithPosition(
+                scenario.steps[currentStepIndex],
+                currentStepIndex,
+                scenario.steps.count()
+            )
         )
     }
 }

@@ -17,4 +17,6 @@ enum class EducationType {
     POST_GRADUATE;
 
     fun isHigherEducation() = this == HIGHER || this == POST_GRADUATE
+
+    fun isNoEducation() = this == NO_EDUCATION
 }

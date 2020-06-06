@@ -35,4 +35,6 @@
 
     <string name="about_me_hint">Обо мне</string>
     <string name="about_me_header_text">Расскажите немного о себе и любом релевантном опыте</string>
+
+    <string name="motivation_error_stub_txt">Упс ( Что-то пошло не так</string>
 </resources>

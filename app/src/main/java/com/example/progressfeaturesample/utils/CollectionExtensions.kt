@@ -18,7 +18,7 @@ fun <T> MutableList<T>.addAfter(predicate: (T) -> Boolean, newElem: T) {
     val index = this.indexOfFirst { predicate(it) }
     if (index != -1) {
         if (index != lastIndex) {
-            add(index+1, newElem)
+            add(index + 1, newElem)
         } else {
             add(newElem)
         }

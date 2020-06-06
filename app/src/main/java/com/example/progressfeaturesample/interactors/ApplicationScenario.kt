@@ -1,6 +1,5 @@
 package com.example.progressfeaturesample.interactors
 
-import com.example.progressfeaturesample.domain.EducationType
 import com.example.progressfeaturesample.domain.PersonalInfo
 import com.example.progressfeaturesample.interactors.common.Scenario
 import com.example.progressfeaturesample.utils.addAfter
@@ -30,13 +29,16 @@ class ApplicationScenario : Scenario<ApplicationSteps, ApplicationStepOut> {
     }
 
     private fun applyEducationToScenario(personalInfo: PersonalInfo) {
-        if (personalInfo.education == EducationType.NO_EDUCATION) {
-            steps.removeElem { it is EducationStep }
-        } else {
-            steps.addAfter(
-                { it is PersonalInfoStep },
-                EducationStep
-            )
+        when {
+            personalInfo.education.isNoEducation() -> {
+                steps.removeElem { it is EducationStep }
+            }
+            !steps.contains(EducationStep) -> {
+                steps.addAfter(
+                    { it is PersonalInfoStep },
+                    EducationStep
+                )
+            }
         }
     }
 

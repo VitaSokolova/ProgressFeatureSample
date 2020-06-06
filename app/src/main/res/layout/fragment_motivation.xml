@@ -16,9 +16,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="Упс ( Что-то пошло не так"
+        android:text="@string/motivation_error_stub_txt"
         android:textAppearance="@style/RobotoMedium.20"
-        android:textColor="?android:attr/textColorPrimary" />
+        android:textColor="?android:attr/textColorPrimary"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/chips_container"
@@ -31,8 +32,8 @@
             android:id="@+id/chips_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:chipSpacingVertical="@dimen/dp8"
-            app:chipSpacingHorizontal="8dp" />
+            app:chipSpacingHorizontal="8dp"
+            app:chipSpacingVertical="@dimen/dp8" />
 
     </LinearLayout>
 
