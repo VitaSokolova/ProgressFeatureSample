@@ -1,13 +1,50 @@
 package com.example.progressfeaturesample.interactors
 
+import com.example.progressfeaturesample.domain.EducationType
+import com.example.progressfeaturesample.domain.PersonalInfo
 import com.example.progressfeaturesample.interactors.common.Scenario
+import com.example.progressfeaturesample.utils.addAfter
+import com.example.progressfeaturesample.utils.removeElem
+import com.example.progressfeaturesample.utils.replaceWith
 
-class ApplicationScenario : Scenario<ApplicationSteps> {
+class ApplicationScenario : Scenario<ApplicationSteps, ApplicationStepOut> {
 
     override val steps: MutableList<ApplicationSteps> = mutableListOf(
-        PersonalInfoStep(),
-        EducationStep(),
-        ExperienceStep(),
-        MotivationStep()
+        PersonalInfoStep,
+        EducationStep,
+        ExperienceStep,
+        MotivationStep
     )
+
+    override fun completeStep(stepOut: ApplicationStepOut) {
+        when (stepOut) {
+            is PersonalInfoStepOut -> {
+                changeScenarioAfterPersonalStep(stepOut.info)
+            }
+        }
+    }
+
+    private fun changeScenarioAfterPersonalStep(personalInfo: PersonalInfo) {
+        applyExperienceToScenario(personalInfo)
+        applyEducationToScenario(personalInfo)
+    }
+
+    private fun applyEducationToScenario(personalInfo: PersonalInfo) {
+        if (personalInfo.education == EducationType.NO_EDUCATION) {
+            steps.removeElem { it is EducationStep }
+        } else {
+            steps.addAfter(
+                { it is PersonalInfoStep },
+                EducationStep
+            )
+        }
+    }
+
+    private fun applyExperienceToScenario(personalInfo: PersonalInfo) {
+        if (personalInfo.workingExperience) {
+            steps.replaceWith({ it is AboutMeStep }, ExperienceStep)
+        } else {
+            steps.replaceWith({ it is ExperienceStep }, AboutMeStep)
+        }
+    }
 }

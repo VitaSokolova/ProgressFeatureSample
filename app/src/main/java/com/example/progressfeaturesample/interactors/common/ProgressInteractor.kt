@@ -15,29 +15,26 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
  */
 abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData<S>>(val schedulersProvider: SchedulersProvider) {
 
-    // сущность, отвечающая за получение входных данных
-    protected abstract val stepInDataResolver: StepInDataResolver<S, I>
-    // сущность, отвечающая за сохранение выходных данных
-    protected abstract val stepOutDataResolver: StepOutDataResolver<O>
+    // сущность, отвечающая за управление составом шагов и переходы
+    protected abstract val stepManager: StepsManager<S, O>
 
-    protected val stepChangeSubject = BehaviorSubject.create<StepWithPosition<S>>()
+    private val stepChangeSubject = BehaviorSubject.create<StepWithPosition<S>>()
+
     // Observable, на который можно подписаться, чтобы изнать о переходе на другой шаг
     val stepChangeObservable: Observable<StepWithPosition<S>> = stepChangeSubject.hide()
 
-    // сущность, отвечающая за управление составом шагов и переходы
-    abstract fun getStepManager(): StepsManager<S>
+    protected abstract fun resolveStepOutData(step: O): Completable
 
-    /**
-     * Возвращает входные данные для шага
-     */
-    open fun getDataForStep(step: S): Single<I> = stepInDataResolver.resolveStepData(step)
+    protected abstract fun resolveStepInData(step: S): Single<I>
+
+    fun getDataForStep(step: S): Single<I> = resolveStepInData(step)
 
     /**
      * Сохраняет выходные данные шага
      */
-    open fun completeStep(stepOut: O): Completable {
-        return stepOutDataResolver.resolveStep(stepOut).doOnComplete {
-            getStepManager().completeStep(stepOut.step)
+    fun completeStep(stepOut: O): Completable {
+        return resolveStepOutData(stepOut).doOnComplete {
+            stepManager.completeStep(stepOut)
             notifyStepChanges()
         }
     }
@@ -46,7 +43,7 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData<S>>(
      * Переход на предыдущий шаг
      */
     open fun toPreviousStep() {
-        getStepManager().backStep()
+        stepManager.backStep()
         notifyStepChanges()
     }
 
@@ -56,7 +53,7 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData<S>>(
      */
     protected fun notifyStepChanges() {
         stepChangeSubject.onNext(
-            getStepManager().getCurrentStep()
+            stepManager.getCurrentStep()
         )
     }
 }

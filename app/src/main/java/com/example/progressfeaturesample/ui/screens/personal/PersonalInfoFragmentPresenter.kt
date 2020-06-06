@@ -40,7 +40,9 @@ class PersonalInfoFragmentPresenter @Inject constructor(
                 }
             )
         ) { _, info: PersonalInfo -> info } bindTo {
-            subscribeIoHandleError(progressInteractor.completeStep(PersonalInfoStepOut(it))) {
+            subscribeIoHandleError(progressInteractor.completeStep(
+                PersonalInfoStepOut(it)
+            )) {
                 // если нужны какие-то действия на onCompleted()
             }
         }

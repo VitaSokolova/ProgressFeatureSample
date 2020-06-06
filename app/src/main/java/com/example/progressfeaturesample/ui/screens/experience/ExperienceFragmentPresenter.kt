@@ -21,7 +21,13 @@ class ExperienceFragmentPresenter @Inject constructor(
     override fun onFirstLoad() {
         bm.onNextPressedAction bindTo {
             subscribeIoHandleError(
-                progressInteractor.completeStep(ExperienceStepOut(WorkingExperience())), {})
+                progressInteractor.completeStep(
+                    ExperienceStepOut(
+                        WorkingExperience()
+                    )
+                ),
+                {}
+            )
         }
     }
 }

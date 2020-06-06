@@ -5,6 +5,7 @@ import com.example.progressfeaturesample.interactors.ApplicationProgressInteract
 import com.example.progressfeaturesample.interactors.MotivationStep
 import com.example.progressfeaturesample.interactors.MotivationStepIn
 import com.example.progressfeaturesample.interactors.MotivationStepOut
+import com.example.progressfeaturesample.ui.utils.filter
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -30,7 +31,9 @@ class MotivationFragmentPresenter @Inject constructor(
                     MotivationStepOut(
                         Motivation("Mew")
                     )
-                ), {})
+                ),
+                {}
+            )
         }
 
         getStepInputData()
@@ -41,8 +44,8 @@ class MotivationFragmentPresenter @Inject constructor(
      */
     private fun getStepInputData() {
         subscribeIoHandleError(
-            progressInteractor.getDataForStep(MotivationStep())
-                .map { it as MotivationStepIn }
+            progressInteractor.getDataForStep(MotivationStep)
+                .filter<MotivationStepIn>()
                 .doOnSubscribe {
                     changeMotivationState(LoadStatus.LOADING)
                 }, // пока не придумала, как обойтись без каста
