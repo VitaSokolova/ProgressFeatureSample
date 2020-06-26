@@ -2,8 +2,8 @@ package com.example.progressfeaturesample.ui.screens.motivation
 
 import com.example.progressfeaturesample.domain.Motivation
 import com.example.progressfeaturesample.interactors.application.ApplicationProgressInteractor
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationStepData
 import com.example.progressfeaturesample.interactors.application.steps.MotivationStep
-import com.example.progressfeaturesample.interactors.application.steps.MotivationStepInData
 import com.example.progressfeaturesample.interactors.application.steps.MotivationStepOutData
 import com.example.progressfeaturesample.ui.utils.filter
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
@@ -33,12 +33,24 @@ class MotivationFragmentPresenter @Inject constructor(
                             Motivation("Mew")
                         )
                     )
-                ),
-                {}
-            )
+                )
+            ) {
+                sendApplication()
+            }
         }
 
         getStepInputData()
+    }
+
+    /**
+     * Отправка финальной заявки
+     */
+    private fun sendApplication() {
+        subscribeIoHandleError(
+            progressInteractor.sendApplication()
+        ) {
+            // реакция на успешную отправку
+        }
     }
 
     /**
@@ -47,14 +59,14 @@ class MotivationFragmentPresenter @Inject constructor(
     private fun getStepInputData() {
         subscribeIoHandleError(
             progressInteractor.getDataForStep(MotivationStep)
-                .filter<MotivationStepInData>()
+                .filter<ApplicationStepData.MotivationStepData>()
                 .doOnSubscribe {
                     changeMotivationState(LoadStatus.LOADING)
                 },
             {
                 changeMotivationState(
                     LoadStatus.NORMAL,
-                    it.predefinedValues
+                    it.motivationStepInData.predefinedValues
                 )
             },
             {

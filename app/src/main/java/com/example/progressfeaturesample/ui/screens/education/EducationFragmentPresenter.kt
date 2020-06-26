@@ -2,8 +2,8 @@ package com.example.progressfeaturesample.ui.screens.education
 
 import com.example.progressfeaturesample.domain.Education
 import com.example.progressfeaturesample.interactors.application.ApplicationProgressInteractor
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationStepData
 import com.example.progressfeaturesample.interactors.application.steps.EducationStep
-import com.example.progressfeaturesample.interactors.application.steps.EducationStepInData
 import com.example.progressfeaturesample.interactors.application.steps.EducationStepOutData
 import com.example.progressfeaturesample.ui.utils.filter
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
@@ -34,9 +34,9 @@ class EducationFragmentPresenter @Inject constructor(
 
         //т.к. данные обязаны прийти из предыдущего шага, это быстро и не трубуют доп. запросов
         subscribeIoHandleError(
-            progressInteractor.getDataForStep(EducationStep).filter<EducationStepInData>(),
+            progressInteractor.getDataForStep(EducationStep).filter<ApplicationStepData.EducationStepData>(),
             {
-                bm.educationTypeState.accept(it.educationType)
+                bm.educationTypeState.accept(it.stepInData.educationType)
             },
             {}
         )

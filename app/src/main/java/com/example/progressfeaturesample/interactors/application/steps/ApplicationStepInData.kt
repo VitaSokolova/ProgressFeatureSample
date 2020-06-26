@@ -13,12 +13,16 @@ sealed class ApplicationStepInData : StepInData
 /**
  * Входные данные для шага об образовании
  */
-class EducationStepInData(val educationType: EducationType) : ApplicationStepInData()
+class EducationStepInData(
+    val educationType: EducationType
+) : ApplicationStepInData()
 
 /**
  * Входные данные для шага о мотивации
  */
-class MotivationStepInData(val predefinedValues: List<Motivation>) : ApplicationStepInData()
+class MotivationStepInData(
+    val predefinedValues: List<Motivation>
+) : ApplicationStepInData()
 
 /**
  * Заглушка, обозначающая, что на вход шагу ничего не нужно

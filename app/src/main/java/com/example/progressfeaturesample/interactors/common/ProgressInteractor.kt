@@ -1,9 +1,6 @@
 package com.example.progressfeaturesample.interactors.common
 
-import com.example.progressfeaturesample.interactors.common.step.Step
-import com.example.progressfeaturesample.interactors.common.step.StepInData
-import com.example.progressfeaturesample.interactors.common.step.StepOutData
-import com.example.progressfeaturesample.interactors.common.step.StepPositionData
+import com.example.progressfeaturesample.interactors.common.step.*
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -31,12 +28,12 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData> {
     /**
      * Метод получения входной информации для шага
      */
-    protected abstract fun resolveStepInData(step: S): Single<I>
+    protected abstract fun resolveStepInData(stepData: S): Single<out StepData<I, O>>
 
     /**
      * Метод обработки выходной информации для шага
      */
-    protected abstract fun saveStepOutData(step: O): Completable
+    protected abstract fun saveStepOutData(stepData: O): Completable
 
     /**
      * Инициализация работы интерактора
@@ -49,7 +46,7 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData> {
     /**
      * Предоставление входные параметров для шага
      */
-    fun getDataForStep(step: S): Single<I> = resolveStepInData(step)
+    fun getDataForStep(step: S): Single<out StepData<I, O>> = resolveStepInData(step)
 
     /**
      * Сохранение выходных данные шага

@@ -19,17 +19,47 @@ class ApplicationProgressInteractor @Inject constructor(
     // сценарий оформления
     override val scenario = ApplicationScenario()
 
-    // билдер, для построения заявки
-    private val builder = Application.Builder()
+    // черновик заявки
+    private val draft: ApplicationDraft = ApplicationDraft()
+
+    fun applyDraft(draft: ApplicationDraft) {
+        this.draft.outDataMap.putAll(draft.outDataMap)
+    }
+
+    fun getDraft(): ApplicationDraft = draft
 
     /**
      * Метод получения входной информации для шага
      */
-    override fun resolveStepInData(step: ApplicationSteps): Single<ApplicationStepInData> {
-        return when (step) {
-            is EducationStep -> getDataForEducationStep()
-            is MotivationStep -> getDataForMotivationStep()
-            else -> Single.just(EmptyStepInData)
+    override fun resolveStepInData(stepData: ApplicationSteps): Single<ApplicationStepData> {
+        return when (stepData) {
+            PersonalInfoStep -> Single.just(
+                ApplicationStepData.PersonalInfoStepData(
+                    draft.getPersonalInfoOutData()
+                )
+            )
+            EducationStep -> getDataForEducationStep().map {
+                ApplicationStepData.EducationStepData(
+                    it,
+                    draft.getEducationStepOutData()
+                )
+            }
+            ExperienceStep -> Single.just(
+                ApplicationStepData.ExperienceStepData(
+                    draft.getExperienceStepOutData()
+                )
+            )
+            AboutMeStep -> Single.just(
+                ApplicationStepData.AboutMeStepData(
+                    draft.getAboutMeStepOutData()
+                )
+            )
+            MotivationStep -> getDataForMotivationStep().map {
+                ApplicationStepData.MotivationStepData(
+                    it,
+                    draft.getMotivationStepOutData()
+                )
+            }
         }
     }
 
@@ -39,27 +69,49 @@ class ApplicationProgressInteractor @Inject constructor(
     override fun saveStepOutData(stepData: ApplicationStepOutData): Completable {
         return Completable.fromAction {
             when (stepData) {
-                is PersonalInfoStepOutData -> builder.personalInfo(stepData.info)
-                is EducationStepOutData -> builder.education(stepData.education)
-                is ExperienceStepOutData -> builder.experience(stepData.experience)
-                is AboutMeStepOutData -> builder.experience(stepData.info)
+                is PersonalInfoStepOutData -> {
+                    draft.outDataMap[PersonalInfoStep] = stepData
+                }
+                is EducationStepOutData -> {
+                    draft.outDataMap[EducationStep] = stepData
+                }
+                is ExperienceStepOutData -> {
+                    draft.outDataMap[ExperienceStep] = stepData
+                }
+                is AboutMeStepOutData -> {
+                    draft.outDataMap[AboutMeStep] = stepData
+                }
                 is MotivationStepOutData -> {
-                    builder.motivation(stepData.motivation)
-                    dataRepository.loadApplication(builder.build())
+                    draft.outDataMap[MotivationStep] = stepData
                 }
             }
         }
     }
 
-    private fun getDataForEducationStep(): Single<ApplicationStepInData> {
+    fun sendApplication(): Completable {
+        // билдер, для построения заявки
+        val builder = Application.Builder()
+        draft.outDataMap.values.forEach { data ->
+            when (data) {
+                is PersonalInfoStepOutData -> builder.personalInfo(data.info)
+                is EducationStepOutData -> builder.education(data.education)
+                is ExperienceStepOutData -> builder.experience(data.experience)
+                is AboutMeStepOutData -> builder.experience(data.info)
+                is MotivationStepOutData -> builder.motivation(data.motivation)
+            }
+        }
+        return dataRepository.loadApplication(builder.build())
+    }
+
+    private fun getDataForEducationStep(): Single<EducationStepInData> {
         return Single.just(
             EducationStepInData(
-                builder.getPersonalInfo().education
+                draft.getPersonalInfoOutData()?.info?.education ?: error("Not enough data")
             )
         )
     }
 
-    private fun getDataForMotivationStep(): Single<ApplicationStepInData> {
+    private fun getDataForMotivationStep(): Single<MotivationStepInData> {
         return dataRepository.loadMotivationVariants().map {
             MotivationStepInData(it)
         }
