@@ -6,7 +6,7 @@ import com.example.progressfeaturesample.interactors.common.step.StepOutData
 /**
  * Интерфейс, которому должны удовлетворять все классы, описывающие порядок шагов в фиче
  */
-interface Scenario<S : Step, O : StepOutData<S>> {
+interface Scenario<S : Step, O : StepOutData> {
     /**
      * Список шагов
      */

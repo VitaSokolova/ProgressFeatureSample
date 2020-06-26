@@ -3,7 +3,7 @@ package com.example.progressfeaturesample.interactors.common
 import com.example.progressfeaturesample.interactors.common.step.Step
 import com.example.progressfeaturesample.interactors.common.step.StepInData
 import com.example.progressfeaturesample.interactors.common.step.StepOutData
-import com.example.progressfeaturesample.interactors.common.step.StepWithPosition
+import com.example.progressfeaturesample.interactors.common.step.StepPositionData
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -15,15 +15,15 @@ import io.reactivex.subjects.BehaviorSubject
  * I - входные данные для шагов
  * O - выходные данные для шагов
  */
-abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData<S>>() {
+abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData> {
 
     // сущность, отвечающая за состав и порядок шагов
     protected abstract val scenario: Scenario<S, O>
 
-    private val stepChangeSubject = BehaviorSubject.create<StepWithPosition<S>>()
+    private val stepChangeSubject = BehaviorSubject.create<StepPositionData<S>>()
 
     // Observable, на который можно подписаться, чтобы узнать о переходе на другой шаг
-    val stepChangeObservable: Observable<StepWithPosition<S>> = stepChangeSubject.hide()
+    val stepChangeObservable: Observable<StepPositionData<S>> = stepChangeSubject.hide()
 
     // текущий активный шаг
     private var currentStepIndex: Int = 0
@@ -36,7 +36,7 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData<S>>(
     /**
      * Метод обработки выходной информации для шага
      */
-    protected abstract fun resolveStepOutData(step: O): Completable
+    protected abstract fun saveStepOutData(step: O): Completable
 
     /**
      * Инициализация работы интерактора
@@ -55,7 +55,7 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData<S>>(
      * Сохранение выходных данные шага
      */
     fun completeStep(stepOut: O): Completable {
-        return resolveStepOutData(stepOut).doOnComplete {
+        return saveStepOutData(stepOut).doOnComplete {
             scenario.completeStep(stepOut)
 
             if (currentStepIndex != scenario.steps.lastIndex && currentStepIndex != -1) {
@@ -82,7 +82,7 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData<S>>(
      */
     private fun notifyStepChanges() {
         stepChangeSubject.onNext(
-            StepWithPosition(
+            StepPositionData(
                 scenario.steps[currentStepIndex],
                 currentStepIndex,
                 scenario.steps.count()

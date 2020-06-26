@@ -3,8 +3,8 @@ package com.example.progressfeaturesample.ui.screens.motivation
 import com.example.progressfeaturesample.domain.Motivation
 import com.example.progressfeaturesample.interactors.application.ApplicationProgressInteractor
 import com.example.progressfeaturesample.interactors.application.steps.MotivationStep
-import com.example.progressfeaturesample.interactors.application.steps.MotivationStepIn
-import com.example.progressfeaturesample.interactors.application.steps.MotivationStepOut
+import com.example.progressfeaturesample.interactors.application.steps.MotivationStepInData
+import com.example.progressfeaturesample.interactors.application.steps.MotivationStepOutData
 import com.example.progressfeaturesample.ui.utils.filter
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
@@ -28,8 +28,10 @@ class MotivationFragmentPresenter @Inject constructor(
         bm.onNextPressedAction bindTo {
             subscribeIoHandleError(
                 progressInteractor.completeStep(
-                    MotivationStepOut(
-                        Motivation("Mew")
+                    MotivationStepOutData(
+                        listOf(
+                            Motivation("Mew")
+                        )
                     )
                 ),
                 {}
@@ -45,10 +47,10 @@ class MotivationFragmentPresenter @Inject constructor(
     private fun getStepInputData() {
         subscribeIoHandleError(
             progressInteractor.getDataForStep(MotivationStep)
-                .filter<MotivationStepIn>()
+                .filter<MotivationStepInData>()
                 .doOnSubscribe {
                     changeMotivationState(LoadStatus.LOADING)
-                }, // пока не придумала, как обойтись без каста
+                },
             {
                 changeMotivationState(
                     LoadStatus.NORMAL,

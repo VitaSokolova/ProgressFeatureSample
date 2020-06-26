@@ -8,19 +8,19 @@ import com.example.progressfeaturesample.interactors.common.step.StepInData
  * Класс, описывающий входные данные для работы шагов из
  * [com.example.progressfeaturesample.interactors.application.ApplicationScenario]
  */
-sealed class ApplicationStepIn : StepInData
+sealed class ApplicationStepInData : StepInData
 
 /**
  * Входные данные для шага об образовании
  */
-class EducationStepIn(val educationType: EducationType) : ApplicationStepIn()
+class EducationStepInData(val educationType: EducationType) : ApplicationStepInData()
 
 /**
  * Входные данные для шага о мотивации
  */
-class MotivationStepIn(val predefinedValues: List<Motivation>) : ApplicationStepIn()
+class MotivationStepInData(val predefinedValues: List<Motivation>) : ApplicationStepInData()
 
 /**
  * Заглушка, обозначающая, что на вход шагу ничего не нужно
  */
-object EmptyStepIn : ApplicationStepIn()
+object EmptyStepInData : ApplicationStepInData()

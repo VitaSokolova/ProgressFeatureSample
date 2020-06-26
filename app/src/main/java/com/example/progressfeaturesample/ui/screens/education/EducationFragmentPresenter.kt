@@ -3,8 +3,8 @@ package com.example.progressfeaturesample.ui.screens.education
 import com.example.progressfeaturesample.domain.Education
 import com.example.progressfeaturesample.interactors.application.ApplicationProgressInteractor
 import com.example.progressfeaturesample.interactors.application.steps.EducationStep
-import com.example.progressfeaturesample.interactors.application.steps.EducationStepIn
-import com.example.progressfeaturesample.interactors.application.steps.EducationStepOut
+import com.example.progressfeaturesample.interactors.application.steps.EducationStepInData
+import com.example.progressfeaturesample.interactors.application.steps.EducationStepOutData
 import com.example.progressfeaturesample.ui.utils.filter
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
@@ -24,7 +24,7 @@ class EducationFragmentPresenter @Inject constructor(
     override fun onFirstLoad() {
         bm.onNextPressedAction bindTo {
             subscribeIoHandleError(progressInteractor.completeStep(
-                EducationStepOut(
+                EducationStepOutData(
                     Education()
                 )
             ),
@@ -34,7 +34,7 @@ class EducationFragmentPresenter @Inject constructor(
 
         //т.к. данные обязаны прийти из предыдущего шага, это быстро и не трубуют доп. запросов
         subscribeIoHandleError(
-            progressInteractor.getDataForStep(EducationStep).filter<EducationStepIn>(),
+            progressInteractor.getDataForStep(EducationStep).filter<EducationStepInData>(),
             {
                 bm.educationTypeState.accept(it.educationType)
             },

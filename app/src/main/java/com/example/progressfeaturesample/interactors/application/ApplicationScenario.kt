@@ -11,7 +11,7 @@ import com.example.progressfeaturesample.utils.replaceWith
  * Класс, описывающий порядок шагов при оформлении заявки
  * Выходные данные шага могут влиять на состав шагов, например
  */
-class ApplicationScenario : Scenario<ApplicationSteps, ApplicationStepOut> {
+class ApplicationScenario : Scenario<ApplicationSteps, ApplicationStepOutData> {
 
     override val steps: MutableList<ApplicationSteps> = mutableListOf(
         PersonalInfoStep,
@@ -23,10 +23,10 @@ class ApplicationScenario : Scenario<ApplicationSteps, ApplicationStepOut> {
     /**
      * Внесение изменений в сценарий, в зависимости от выходной информации шага
      */
-    override fun completeStep(stepOut: ApplicationStepOut) {
-        when (stepOut) {
-            is PersonalInfoStepOut -> {
-                changeScenarioAfterPersonalStep(stepOut.info)
+    override fun completeStep(stepOutData: ApplicationStepOutData) {
+        when (stepOutData) {
+            is PersonalInfoStepOutData -> {
+                changeScenarioAfterPersonalStep(stepOutData.info)
             }
         }
     }
