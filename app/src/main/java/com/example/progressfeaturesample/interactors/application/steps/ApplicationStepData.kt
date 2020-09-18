@@ -13,15 +13,15 @@ sealed class ApplicationStepData : StepData<ApplicationStepInData, ApplicationSt
     ) : ApplicationStepData()
 
     class ExperienceStepData(
-        val experienceStepOutData: ExperienceStepOutData?
+        val stepOutData: ExperienceStepOutData?
     ) : ApplicationStepData()
 
     class AboutMeStepData(
-        val aboutMeStepOutData: AboutMeStepOutData?
+        val stepOutData: AboutMeStepOutData?
     ) : ApplicationStepData()
 
     class MotivationStepData(
-        val motivationStepInData: MotivationStepInData,
-        val motivationStepOutData: MotivationStepOutData?
+        val stepInData: MotivationStepInData,
+        val stepOutData: MotivationStepOutData?
     ) : ApplicationStepData()
 }

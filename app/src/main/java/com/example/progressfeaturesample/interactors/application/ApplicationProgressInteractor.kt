@@ -2,6 +2,7 @@ package com.example.progressfeaturesample.interactors.application
 
 import com.example.progressfeaturesample.domain.Application
 import com.example.progressfeaturesample.interactors.application.steps.*
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationStepData.*
 import com.example.progressfeaturesample.interactors.common.ProgressInteractor
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -44,33 +45,34 @@ class ApplicationProgressInteractor @Inject constructor(
                     draft.getPersonalInfoOutData()
                 )
             )
-            EducationStep -> getDataForEducationStep().map {
-                ApplicationStepData.EducationStepData(
-                    it,
+            ApplicationSteps.EDUCATION -> getDataForEducationStep().map { stepInData ->
+                EducationStepData(
+                    stepInData,
                     draft.getEducationStepOutData()
                 )
             }
-            ExperienceStep -> Single.just(
-                ApplicationStepData.ExperienceStepData(
+            ApplicationSteps.EXPERIENCE -> Single.just(
+                ExperienceStepData(
                     draft.getExperienceStepOutData()
                 )
             )
-            AboutMeStep -> Single.just(
-                ApplicationStepData.AboutMeStepData(
+            ApplicationSteps.ABOUT_ME -> Single.just(
+                AboutMeStepData(
                     draft.getAboutMeStepOutData()
                 )
             )
-            MotivationStep -> getDataForMotivationStep().map {
-                ApplicationStepData.MotivationStepData(
-                    it,
-                    draft.getMotivationStepOutData()
-                )
-            }
+            ApplicationSteps.MOTIVATION -> dataRepository.loadMotivationVariants()
+                .map { reasonsList ->
+                    MotivationStepData(
+                        stepInData = MotivationStepInData(reasonsList),
+                        stepOutData = draft.getMotivationStepOutData()
+                    )
+                }
         }
     }
 
     /**
-     * Сохранение выходных данных шага в билдер и отправка заявления
+     * Сохранение выходных данных шага в черновик
      */
     override fun saveStepOutData(stepData: ApplicationStepOutData): Completable {
         return Completable.fromAction {

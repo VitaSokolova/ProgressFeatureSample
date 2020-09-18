@@ -21,7 +21,7 @@ class EducationStepInData(
  * Входные данные для шага о мотивации
  */
 class MotivationStepInData(
-    val predefinedValues: List<Motivation>
+    val values: List<Motivation>
 ) : ApplicationStepInData()
 
 /**

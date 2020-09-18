@@ -1,5 +1,6 @@
 package com.example.progressfeaturesample.interactors.common
 
+import androidx.annotation.CallSuper
 import com.example.progressfeaturesample.interactors.common.step.*
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -38,7 +39,7 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData> {
     /**
      * Метод получения входной информации для шага
      */
-    protected abstract fun resolveStepInData(stepData: S): Single<out StepData<I, O>>
+    protected abstract fun resolveStepInData(step: S): Single<out StepData<I, O>>
 
     /**
      * Метод обработки выходной информации для шага
@@ -48,17 +49,26 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData> {
     /**
      * Инициализация работы интерактора
      */
-    open fun initProgressFeature(){
+    @CallSuper
+    open fun initProgressFeature() {
         currentStepIndex = 0
     }
 
     /**
-     * Предоставление входные параметров для шага
+     * Завершение работы интерактора
+     */
+    @CallSuper
+    open fun closeProgressFeature() {
+        currentStepIndex = 0
+    }
+
+    /**
+     * Предоставление входных параметров для шага
      */
     fun getDataForStep(step: S): Single<out StepData<I, O>> = resolveStepInData(step)
 
     /**
-     * Сохранение выходных данные шага
+     * Завершение текущего шага и переход к следующему
      */
     fun completeStep(stepOut: O): Completable {
         return saveStepOutData(stepOut).doOnComplete {
@@ -76,19 +86,5 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData> {
         if (currentStepIndex !in listOf(0, -1)) {
             currentStepIndex -= 1
         }
-    }
-
-
-    /**
-     * Обновление данных о сценарии для подписчиков
-     */
-    private fun notifyStepChanges() {
-        stepChangeSubject.onNext(
-            StepPositionData(
-                scenario.steps[currentStepIndex],
-                currentStepIndex,
-                scenario.steps.count()
-            )
-        )
     }
 }

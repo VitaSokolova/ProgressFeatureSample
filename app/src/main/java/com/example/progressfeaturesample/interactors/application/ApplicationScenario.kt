@@ -1,5 +1,6 @@
 package com.example.progressfeaturesample.interactors.application
 
+import com.example.progressfeaturesample.domain.EducationType
 import com.example.progressfeaturesample.domain.PersonalInfo
 import com.example.progressfeaturesample.interactors.application.steps.ApplicationStepOutData
 import com.example.progressfeaturesample.interactors.application.steps.ApplicationSteps
@@ -11,7 +12,7 @@ import com.example.progressfeaturesample.utils.replaceWith
 
 /**
  * Класс, описывающий порядок шагов при оформлении заявки
- * Выходные данные шага могут влиять на состав шагов, например
+ * Например, выходные данные шага могут влиять на состав шагов и сценарий будет меняться
  */
 class ApplicationScenario : Scenario<ApplicationSteps, ApplicationStepOutData> {
 
@@ -25,10 +26,10 @@ class ApplicationScenario : Scenario<ApplicationSteps, ApplicationStepOutData> {
     /**
      * Внесение изменений в сценарий, в зависимости от выходной информации шага
      */
-    override fun completeStep(stepOutData: ApplicationStepOutData) {
-        when (stepOutData) {
+    override fun completeStep(stepOut: ApplicationStepOutData) {
+        when (stepOut) {
             is PersonalInfoStepOutData -> {
-                changeScenarioAfterPersonalStep(stepOutData.info)
+                changeScenarioAfterPersonalStep(stepOut.info)
             }
         }
     }
@@ -37,17 +38,17 @@ class ApplicationScenario : Scenario<ApplicationSteps, ApplicationStepOutData> {
      * Внесение изменений в сценарий, в зависимости от персональной информации
      */
     private fun changeScenarioAfterPersonalStep(personalInfo: PersonalInfo) {
-        applyExperienceToScenario(personalInfo)
-        applyEducationToScenario(personalInfo)
+        applyExperienceToScenario(personalInfo.hasWorkingExperience)
+        applyEducationToScenario(personalInfo.education)
     }
 
     /**
      * Если нет образования - шаг с заполнением места учебы будет исключен
      */
-    private fun applyEducationToScenario(personalInfo: PersonalInfo) {
+    private fun applyEducationToScenario(education: EducationType) {
         when {
-            personalInfo.education.isNoEducation() -> {
-                steps.removeElem { it is EducationStep }
+            education.isNoEducation() -> {
+                steps.removeElem { it === ApplicationSteps.EDUCATION }
             }
             !steps.contains(ApplicationSteps.EDUCATION) -> {
                 steps.addAfter(
@@ -62,14 +63,16 @@ class ApplicationScenario : Scenario<ApplicationSteps, ApplicationStepOutData> {
      * Если у пользователя нет опыта работы,
      * шаг заполнения мест работы будет заменен на шаг рассказа о себе
      */
-    private fun applyExperienceToScenario(personalInfo: PersonalInfo) {
-        if (personalInfo.workingExperience) {
-            steps.replaceWith({ it is AboutMeStep },
-                ExperienceStep
+    private fun applyExperienceToScenario(hasWorkingExperience: Boolean) {
+        if (hasWorkingExperience) {
+            steps.replaceWith(
+                { it == ApplicationSteps.ABOUT_ME },
+                ApplicationSteps.EXPERIENCE
             )
         } else {
-            steps.replaceWith({ it is ExperienceStep },
-                AboutMeStep
+            steps.replaceWith(
+                { it == ApplicationSteps.EXPERIENCE },
+                ApplicationSteps.ABOUT_ME
             )
         }
     }

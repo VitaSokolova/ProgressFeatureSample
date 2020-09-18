@@ -11,5 +11,5 @@ class PersonalInfo(
     val surname: String,
     val birthday: Date,
     val education: EducationType,
-    val workingExperience: Boolean
-)
+    val hasWorkingExperience: Boolean
+) : Serializable

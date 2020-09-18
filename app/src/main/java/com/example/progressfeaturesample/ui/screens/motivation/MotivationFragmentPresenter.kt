@@ -101,7 +101,7 @@ class MotivationFragmentPresenter @Inject constructor(
                 val draft = getDraftValues()
                 changeMotivationState(
                     LoadStatus.NORMAL,
-                    it.motivationStepInData.predefinedValues
+                    it.stepInData.values.map { SelectableData(it, draft.contains(it)) }
                 )
             },
             {
