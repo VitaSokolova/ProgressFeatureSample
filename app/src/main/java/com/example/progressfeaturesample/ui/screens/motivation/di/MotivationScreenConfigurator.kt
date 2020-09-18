@@ -42,6 +42,7 @@ class MotivationScreenConfigurator(args: Bundle) : FragmentScreenConfigurator(ar
 
         @Provides
         @PerScreen
+        @Suppress("UNUSED_PARAMETER")
         fun providePresenter(presenter: MotivationFragmentPresenter) = Any()
     }
 

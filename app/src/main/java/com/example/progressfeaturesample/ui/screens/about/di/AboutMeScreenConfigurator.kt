@@ -42,6 +42,7 @@ class AboutMeScreenConfigurator(args: Bundle) : FragmentScreenConfigurator(args)
 
         @Provides
         @PerScreen
+        @Suppress("UNUSED_PARAMETER")
         fun providePresenter(presenter: AboutMeFragmentPresenter) = Any()
     }
 

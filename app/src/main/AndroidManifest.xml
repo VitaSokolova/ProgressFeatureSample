@@ -3,6 +3,7 @@
     package="com.example.progressfeaturesample">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -11,14 +12,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".ui.screens.container.MainActivity"
+            android:name=".ui.screens.start.StartingActivityView"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.screens.container.MainActivity"
+            android:taskAffinity="@string/task_name"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".ui.screens.success.ThankYouActivityView"
+            android:taskAffinity="@string/task_name"
+            android:theme="@style/AppTheme" />
+
     </application>
 
 </manifest>

@@ -3,11 +3,14 @@ package com.example.progressfeaturesample.ui.screens.motivation
 import com.example.progressfeaturesample.domain.Motivation
 import com.example.progressfeaturesample.interactors.application.ApplicationProgressInteractor
 import com.example.progressfeaturesample.interactors.application.steps.ApplicationStepData
-import com.example.progressfeaturesample.interactors.application.steps.MotivationStep
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationSteps
 import com.example.progressfeaturesample.interactors.application.steps.MotivationStepOutData
+import com.example.progressfeaturesample.ui.screens.success.ThankYouRoute
 import com.example.progressfeaturesample.ui.utils.filter
+import io.reactivex.rxkotlin.withLatestFrom
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.utilktx.data.wrapper.loadable.LoadStatus
 import ru.surfstudio.android.utilktx.data.wrapper.loadable.LoadableData
@@ -21,23 +24,47 @@ import javax.inject.Inject
 class MotivationFragmentPresenter @Inject constructor(
     private val bm: MotivationBindModel,
     private val progressInteractor: ApplicationProgressInteractor,
+    private val activityNavigator: ActivityNavigator,
     basePresenterDependency: BasePresenterDependency
 ) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onFirstLoad() {
-        bm.onNextPressedAction bindTo {
+        bm.onNextPressedAction.observable.withLatestFrom(
+            bm.motivationVariantsState.observable.map {
+                it.data.filter { it.isSelected }.map { it.data }
+            }
+        ) bindTo { (_, motivations) ->
             subscribeIoHandleError(
                 progressInteractor.completeStep(
-                    MotivationStepOutData(
-                        listOf(
-                            Motivation("Mew")
-                        )
-                    )
+                    MotivationStepOutData(motivations)
                 )
             ) {
                 sendApplication()
             }
         }
+
+        bm.motivationCheckedAction.observable.distinctUntilChanged() bindTo { (motivation, isChecked) ->
+            bm.motivationVariantsState.change { data ->
+                data.apply {
+                    data.data.map {
+                        if (it.data == motivation) {
+                            it.isSelected = isChecked
+                        }
+                    }
+                }
+            }
+        }
+
+        subscribeIoHandleError(
+            progressInteractor.getDataForStep(ApplicationSteps.MOTIVATION)
+                .filter<ApplicationStepData.MotivationStepData>(),
+            {
+                it.stepOutData?.motivation?.let {
+                    bm.draftCommand.accept(it)
+                }
+            },
+            {}
+        )
 
         getStepInputData()
     }
@@ -46,11 +73,18 @@ class MotivationFragmentPresenter @Inject constructor(
      * Отправка финальной заявки
      */
     private fun sendApplication() {
+        bm.applicationSendingState.accept(LoadStatus.LOADING)
         subscribeIoHandleError(
-            progressInteractor.sendApplication()
-        ) {
-            // реакция на успешную отправку
-        }
+            progressInteractor.sendApplication(),
+            {
+                // реакция на успешную отправку
+                bm.applicationSendingState.accept(LoadStatus.NORMAL)
+                activityNavigator.start(ThankYouRoute())
+            },
+            {
+                bm.applicationSendingState.accept(LoadStatus.ERROR)
+            }
+        )
     }
 
     /**
@@ -58,12 +92,13 @@ class MotivationFragmentPresenter @Inject constructor(
      */
     private fun getStepInputData() {
         subscribeIoHandleError(
-            progressInteractor.getDataForStep(MotivationStep)
+            progressInteractor.getDataForStep(ApplicationSteps.MOTIVATION)
                 .filter<ApplicationStepData.MotivationStepData>()
                 .doOnSubscribe {
                     changeMotivationState(LoadStatus.LOADING)
                 },
             {
+                val draft = getDraftValues()
                 changeMotivationState(
                     LoadStatus.NORMAL,
                     it.motivationStepInData.predefinedValues
@@ -75,10 +110,21 @@ class MotivationFragmentPresenter @Inject constructor(
         )
     }
 
-    private fun changeMotivationState(status: LoadStatus, data: List<Motivation> = emptyList()) {
+    private fun getDraftValues(): List<Motivation> {
+        return if (bm.draftCommand.hasValue) {
+            bm.draftCommand.value
+        } else {
+            emptyList()
+        }
+    }
+
+    private fun changeMotivationState(
+        status: LoadStatus,
+        data: List<SelectableData<Motivation>> = emptyList()
+    ) {
         bm.motivationVariantsState.accept(
             LoadableData(
-                data.map { SelectableData(it, false) },
+                data,
                 status
             )
         )

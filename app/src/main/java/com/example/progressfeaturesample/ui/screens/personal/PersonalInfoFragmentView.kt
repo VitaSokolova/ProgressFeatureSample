@@ -74,5 +74,13 @@ class PersonalInfoFragmentView : BaseRxFragmentView() {
                 bm.educationSelectedAction.accept(education)
             }
         }
+
+        bm.draftData bindTo {
+            name_et.setText(it.info.name)
+            surname_et.setText(it.info.surname)
+            experience_cb.isChecked = it.info.hasWorkingExperience
+            name_et.setText(it.info.name)
+            spinner.setSelection(EducationType.values().indexOf(it.info.education))
+        }
     }
 }

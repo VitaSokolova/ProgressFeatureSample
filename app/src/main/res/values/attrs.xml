@@ -4,6 +4,7 @@
         <attr name="stepCount" format="integer" />
         <attr name="activeColor" format="reference" />
         <attr name="inactiveColor" format="reference" />
+        <attr name="successColor" format="reference" />
         <attr name="gapBetween" format="dimension" />
         <attr name="segmentWidth" format="dimension" />
     </declare-styleable>

@@ -23,18 +23,24 @@ class ApplicationProgressInteractor @Inject constructor(
     private val draft: ApplicationDraft = ApplicationDraft()
 
     fun applyDraft(draft: ApplicationDraft) {
+        this.draft.clear()
         this.draft.outDataMap.putAll(draft.outDataMap)
     }
 
     fun getDraft(): ApplicationDraft = draft
 
+    override fun closeProgressFeature() {
+        super.closeProgressFeature()
+        draft.clear()
+    }
+
     /**
      * Метод получения входной информации для шага
      */
-    override fun resolveStepInData(stepData: ApplicationSteps): Single<ApplicationStepData> {
-        return when (stepData) {
-            PersonalInfoStep -> Single.just(
-                ApplicationStepData.PersonalInfoStepData(
+    override fun resolveStepInData(step: ApplicationSteps): Single<ApplicationStepData> {
+        return when (step) {
+            ApplicationSteps.PERSONAL_INFO -> Single.just(
+                PersonalInfoStepData(
                     draft.getPersonalInfoOutData()
                 )
             )
@@ -70,19 +76,19 @@ class ApplicationProgressInteractor @Inject constructor(
         return Completable.fromAction {
             when (stepData) {
                 is PersonalInfoStepOutData -> {
-                    draft.outDataMap[PersonalInfoStep] = stepData
+                    draft.outDataMap[ApplicationSteps.PERSONAL_INFO] = stepData
                 }
                 is EducationStepOutData -> {
-                    draft.outDataMap[EducationStep] = stepData
+                    draft.outDataMap[ApplicationSteps.EDUCATION] = stepData
                 }
                 is ExperienceStepOutData -> {
-                    draft.outDataMap[ExperienceStep] = stepData
+                    draft.outDataMap[ApplicationSteps.EXPERIENCE] = stepData
                 }
                 is AboutMeStepOutData -> {
-                    draft.outDataMap[AboutMeStep] = stepData
+                    draft.outDataMap[ApplicationSteps.ABOUT_ME] = stepData
                 }
                 is MotivationStepOutData -> {
-                    draft.outDataMap[MotivationStep] = stepData
+                    draft.outDataMap[ApplicationSteps.MOTIVATION] = stepData
                 }
             }
         }
@@ -109,11 +115,5 @@ class ApplicationProgressInteractor @Inject constructor(
                 draft.getPersonalInfoOutData()?.info?.education ?: error("Not enough data")
             )
         )
-    }
-
-    private fun getDataForMotivationStep(): Single<MotivationStepInData> {
-        return dataRepository.loadMotivationVariants().map {
-            MotivationStepInData(it)
-        }
     }
 }

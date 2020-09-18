@@ -1,13 +1,20 @@
 package com.example.progressfeaturesample.domain
 
-sealed class Experience
+import java.io.Serializable
+
+sealed class Experience : Serializable
 
 /**
  * Информация об опыте работы
  */
-class WorkingExperience : Experience()
+data class WorkingExperience(
+    val place: String = "",
+    val position: String = "",
+    val dateFrom: String = "",
+    val dateTo: String = ""
+) : Experience()
 
 /**
  * Информация об личном опыте
  */
-class AboutMe(val text: String) : Experience()
+data class AboutMe(val text: String) : Experience()

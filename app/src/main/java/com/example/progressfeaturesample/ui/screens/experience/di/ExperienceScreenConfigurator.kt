@@ -42,6 +42,7 @@ class ExperienceScreenConfigurator(args: Bundle) : FragmentScreenConfigurator(ar
 
         @Provides
         @PerScreen
+        @Suppress("UNUSED_PARAMETER")
         fun providePresenter(presenter: ExperienceFragmentPresenter) = Any()
     }
 

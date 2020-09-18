@@ -4,14 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.children
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.example.progressfeaturesample.R
 import com.example.progressfeaturesample.domain.Motivation
 import com.example.progressfeaturesample.ui.screens.motivation.di.MotivationScreenConfigurator
 import com.example.progressfeaturesample.ui.utils.createChip
+import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_education.next_btn
 import kotlinx.android.synthetic.main.fragment_motivation.*
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxFragmentView
+import ru.surfstudio.android.utilktx.data.wrapper.loadable.LoadStatus
 import ru.surfstudio.android.utilktx.data.wrapper.selectable.SelectableData
 import javax.inject.Inject
 
@@ -47,20 +51,39 @@ class MotivationFragmentView : BaseRxFragmentView() {
 
     private fun bind() {
         bm.motivationVariantsState bindTo {
-            motivation_pb.isVisible = it.isLoading()
-            motivation_error_tv.isVisible = it.isErrorLoading()
-            chips_container.isVisible = it.isNormal()
+            renderLoading(it.loadStatus)
             createChips(it.data)
         }
+
+        bm.applicationSendingState bindTo ::renderLoading
+    }
+
+    private fun renderLoading(loadStatus: LoadStatus) {
+        motivation_pb.isVisible = loadStatus == LoadStatus.LOADING
+        next_btn.isInvisible = loadStatus == LoadStatus.LOADING
+        motivation_error_tv.isVisible = loadStatus == LoadStatus.ERROR
+        chips_container.isVisible = loadStatus == LoadStatus.NORMAL
     }
 
     private fun createChips(data: List<SelectableData<Motivation>>) {
-        data.forEach {
-            val chip = requireContext().createChip(
-                tag = it.data.text,
-                text = it.data.text
-            )
-            chips_group.addView(chip)
+        if (chips_group.children.count() == 0) {
+            chips_group.removeAllViews()
+            data.forEach {
+                val chip = requireContext().createChip(
+                    tag = it.data.text,
+                    text = it.data.text,
+                    isChecked = it.isSelected
+                )
+                chip.setOnCheckedChangeListener { buttonView, isChecked ->
+                    bm.motivationCheckedAction.accept(it.data to isChecked)
+                }
+                chips_group.addView(chip)
+            }
+        } else {
+            chips_group.children.forEach { view ->
+                (view as? Chip)?.isChecked =
+                    data.find { it.data.text == view.tag }?.isSelected ?: false
+            }
         }
     }
 }

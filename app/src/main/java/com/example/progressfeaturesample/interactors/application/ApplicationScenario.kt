@@ -1,7 +1,9 @@
 package com.example.progressfeaturesample.interactors.application
 
 import com.example.progressfeaturesample.domain.PersonalInfo
-import com.example.progressfeaturesample.interactors.application.steps.*
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationStepOutData
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationSteps
+import com.example.progressfeaturesample.interactors.application.steps.PersonalInfoStepOutData
 import com.example.progressfeaturesample.interactors.common.Scenario
 import com.example.progressfeaturesample.utils.addAfter
 import com.example.progressfeaturesample.utils.removeElem
@@ -14,10 +16,10 @@ import com.example.progressfeaturesample.utils.replaceWith
 class ApplicationScenario : Scenario<ApplicationSteps, ApplicationStepOutData> {
 
     override val steps: MutableList<ApplicationSteps> = mutableListOf(
-        PersonalInfoStep,
-        EducationStep,
-        ExperienceStep,
-        MotivationStep
+        ApplicationSteps.PERSONAL_INFO,
+        ApplicationSteps.EDUCATION,
+        ApplicationSteps.EXPERIENCE,
+        ApplicationSteps.MOTIVATION
     )
 
     /**
@@ -47,10 +49,10 @@ class ApplicationScenario : Scenario<ApplicationSteps, ApplicationStepOutData> {
             personalInfo.education.isNoEducation() -> {
                 steps.removeElem { it is EducationStep }
             }
-            !steps.contains(EducationStep) -> {
+            !steps.contains(ApplicationSteps.EDUCATION) -> {
                 steps.addAfter(
-                    { it is PersonalInfoStep },
-                    EducationStep
+                    { it == ApplicationSteps.PERSONAL_INFO },
+                    ApplicationSteps.EDUCATION
                 )
             }
         }

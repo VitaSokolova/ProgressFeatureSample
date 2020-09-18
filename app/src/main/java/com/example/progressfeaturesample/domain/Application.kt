@@ -7,14 +7,14 @@ import ru.surfstudio.android.core.mvp.binding.rx.extensions.Optional
  */
 class Application(
     val personal: PersonalInfo,
-    val education: Education,
+    val education: Education?,
     val experience: Experience,
     val motivation: List<Motivation>
 ) {
 
     class Builder {
         private var personal: Optional<PersonalInfo> = Optional.empty()
-        private var education: Optional<Education> = Optional.empty()
+        private var education: Optional<Education?> = Optional.empty()
         private var experience: Optional<Experience> = Optional.empty()
         private var motivation: Optional<List<Motivation>> = Optional.empty()
 
@@ -24,7 +24,7 @@ class Application(
         fun motivation(value: List<Motivation>) = apply { motivation = Optional.of(value) }
 
         fun getPersonalInfo(): PersonalInfo = personal.get()
-        fun getEducation(): Education = education.get()
+        fun getEducation(): Education? = education.getOrNull()
         fun getExperience(): Experience = experience.get()
         fun getMotivation(): List<Motivation> = motivation.get()
 
@@ -32,7 +32,7 @@ class Application(
             return try {
                 Application(
                     personal.get(),
-                    education.get(),
+                    education.getOrNull(),
                     experience.get(),
                     motivation.get()
                 )
@@ -40,7 +40,6 @@ class Application(
                 throw ApplicationIsNotFilled(
                     """Some fields aren't filled in application
                         personal = {${personal.getOrNull()}}
-                        education = {${education.getOrNull()}}
                         experience = {${experience.getOrNull()}}
                         motivation = {${motivation.getOrNull()}}
                     """.trimMargin()

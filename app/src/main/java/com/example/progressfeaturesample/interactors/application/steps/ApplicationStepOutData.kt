@@ -2,12 +2,13 @@ package com.example.progressfeaturesample.interactors.application.steps
 
 import com.example.progressfeaturesample.domain.*
 import com.example.progressfeaturesample.interactors.common.step.StepOutData
+import java.io.Serializable
 
 /**
  * Класс, описывающий результат работы шага из
  * [com.example.progressfeaturesample.interactors.application.ApplicationScenario]
  */
-sealed class ApplicationStepOutData : StepOutData
+sealed class ApplicationStepOutData : StepOutData, Serializable
 
 /**
  * Результат шага "Персональная информация"

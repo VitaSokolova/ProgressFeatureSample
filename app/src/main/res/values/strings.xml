@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ProgressFeatureSample</string>
+    <string name="task_name" translatable="false">.progress_flow</string>
 
     <string-array name="education_array">
         <item>Нет</item>
@@ -8,6 +9,9 @@
         <item>Высшее</item>
         <item>Аспирантура</item>
     </string-array>
+
+    <string name="new_application_btn">Новая заявка</string>
+    <string name="from_draft_btn">Из черновика</string>
 
     <string name="next_btn">Далее</string>
     <string name="ready_btn">Готово</string>
@@ -37,4 +41,6 @@
     <string name="about_me_header_text">Расскажите немного о себе и любом релевантном опыте</string>
 
     <string name="motivation_error_stub_txt">Упс ( Что-то пошло не так</string>
+
+    <string name="thank_you_txt">Ваша заявка успешно получена.\nМы свяжемся с вами в ближайшее время!</string>
 </resources>

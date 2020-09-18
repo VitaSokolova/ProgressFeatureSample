@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/check_iv"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/dp16"
+        android:gravity="center"
+        android:text="@string/thank_you_txt"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/check_iv"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_centerInParent="true"
+        android:tint="?attr/successColor"
+        app:srcCompat="@drawable/ic_check_circle" />
+
+    <Button
+        android:id="@+id/close_btn"
+        style="@style/Button.Accent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/dp16"
+        android:text="@string/ready_btn" />
+
+</RelativeLayout>

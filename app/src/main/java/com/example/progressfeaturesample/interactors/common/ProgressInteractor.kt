@@ -23,7 +23,17 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData> {
     val stepChangeObservable: Observable<StepPositionData<S>> = stepChangeSubject.hide()
 
     // текущий активный шаг
-    private var currentStepIndex: Int = 0
+    private var currentStepIndex: Int
+        get() = stepChangeSubject.value?.position ?: 0
+        set(value) {
+            stepChangeSubject.onNext(
+                StepPositionData(
+                    step = scenario.steps[value],
+                    position = value,
+                    allStepsCount = scenario.steps.count()
+                )
+            )
+        }
 
     /**
      * Метод получения входной информации для шага
@@ -40,7 +50,6 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData> {
      */
     open fun initProgressFeature(){
         currentStepIndex = 0
-        notifyStepChanges()
     }
 
     /**
@@ -54,12 +63,9 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData> {
     fun completeStep(stepOut: O): Completable {
         return saveStepOutData(stepOut).doOnComplete {
             scenario.completeStep(stepOut)
-
-            if (currentStepIndex != scenario.steps.lastIndex && currentStepIndex != -1) {
+            if (currentStepIndex !in listOf(scenario.steps.lastIndex, -1)) {
                 currentStepIndex += 1
             }
-
-            notifyStepChanges()
         }
     }
 
@@ -67,10 +73,9 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData> {
      * Переход на предыдущий шаг
      */
     fun toPreviousStep() {
-        if (currentStepIndex != 0 && currentStepIndex != -1) {
+        if (currentStepIndex !in listOf(0, -1)) {
             currentStepIndex -= 1
         }
-        notifyStepChanges()
     }
 
 

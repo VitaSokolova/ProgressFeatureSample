@@ -1,11 +1,11 @@
 package com.example.progressfeaturesample.ui.screens.education
 
-import com.example.progressfeaturesample.domain.Education
 import com.example.progressfeaturesample.interactors.application.ApplicationProgressInteractor
 import com.example.progressfeaturesample.interactors.application.steps.ApplicationStepData
-import com.example.progressfeaturesample.interactors.application.steps.EducationStep
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationSteps
 import com.example.progressfeaturesample.interactors.application.steps.EducationStepOutData
 import com.example.progressfeaturesample.ui.utils.filter
+import io.reactivex.rxkotlin.withLatestFrom
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -22,21 +22,53 @@ class EducationFragmentPresenter @Inject constructor(
 ) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onFirstLoad() {
-        bm.onNextPressedAction bindTo {
-            subscribeIoHandleError(progressInteractor.completeStep(
-                EducationStepOutData(
-                    Education()
+        bm.onNextPressedAction.observable.withLatestFrom(
+            bm.educationState.observable
+        ) bindTo { (_, education) ->
+            subscribeIoHandleError(
+                progressInteractor.completeStep(
+                    EducationStepOutData(education)
                 )
-            ),
-                {}
-            )
+            ) {
+                // обработка успешного завершения
+            }
+        }
+
+        bm.placeChangedAction bindTo { placeTxt ->
+            bm.educationState.change {
+                it.copy(place = placeTxt)
+            }
+        }
+        bm.facultyChangedAction bindTo { facultyTxt ->
+            bm.educationState.change {
+                it.copy(faculty = facultyTxt)
+            }
+        }
+        bm.specialtyChangedAction bindTo { speciality ->
+            bm.educationState.change {
+                it.copy(speciality = speciality)
+            }
+        }
+        bm.dateFromChangedAction bindTo { dateFrom ->
+            bm.educationState.change {
+                it.copy(startDate = dateFrom)
+            }
+        }
+        bm.dateToChangedAction bindTo { dateTo ->
+            bm.educationState.change {
+                it.copy(endDate = dateTo)
+            }
         }
 
         //т.к. данные обязаны прийти из предыдущего шага, это быстро и не трубуют доп. запросов
         subscribeIoHandleError(
-            progressInteractor.getDataForStep(EducationStep).filter<ApplicationStepData.EducationStepData>(),
+            progressInteractor.getDataForStep(ApplicationSteps.EDUCATION)
+                .filter<ApplicationStepData.EducationStepData>(),
             {
                 bm.educationTypeState.accept(it.stepInData.educationType)
+                it.stepOutData?.education?.let {
+                    bm.draftCommand.accept(it)
+                }
             },
             {}
         )
