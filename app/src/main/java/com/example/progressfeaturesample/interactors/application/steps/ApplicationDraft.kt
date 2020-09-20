@@ -1,5 +1,6 @@
 package com.example.progressfeaturesample.interactors.application.steps
 
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationSteps.*
 import java.io.Serializable
 
 /**
@@ -8,16 +9,11 @@ import java.io.Serializable
 class ApplicationDraft(
     val outDataMap: MutableMap<ApplicationSteps, ApplicationStepOutData> = mutableMapOf()
 ) : Serializable {
-    fun getPersonalInfoOutData() =
-        outDataMap[ApplicationSteps.PERSONAL_INFO] as? PersonalInfoStepOutData
-
-    fun getEducationStepOutData() = outDataMap[ApplicationSteps.EDUCATION] as? EducationStepOutData
-    fun getExperienceStepOutData() =
-        outDataMap[ApplicationSteps.EXPERIENCE] as? ExperienceStepOutData
-
-    fun getAboutMeStepOutData() = outDataMap[ApplicationSteps.ABOUT_ME] as? AboutMeStepOutData
-    fun getMotivationStepOutData() =
-        outDataMap[ApplicationSteps.MOTIVATION] as? MotivationStepOutData
+    fun getPersonalInfoOutData() = outDataMap[PERSONAL_INFO] as? PersonalInfoStepOutData
+    fun getEducationStepOutData() = outDataMap[EDUCATION] as? EducationStepOutData
+    fun getExperienceStepOutData() = outDataMap[EXPERIENCE] as? ExperienceStepOutData
+    fun getAboutMeStepOutData() = outDataMap[ABOUT_ME] as? AboutMeStepOutData
+    fun getMotivationStepOutData() = outDataMap[MOTIVATION] as? MotivationStepOutData
 
     fun clear() {
         outDataMap.clear()

@@ -26,9 +26,7 @@ class EducationFragmentPresenter @Inject constructor(
             bm.educationState.observable
         ) bindTo { (_, education) ->
             subscribeIoHandleError(
-                progressInteractor.completeStep(
-                    EducationStepOutData(education)
-                )
+                progressInteractor.completeStep(EducationStepOutData(education))
             ) {
                 // обработка успешного завершения
             }

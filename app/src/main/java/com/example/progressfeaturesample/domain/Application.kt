@@ -23,11 +23,6 @@ class Application(
         fun experience(value: Experience) = apply { experience = Optional.of(value) }
         fun motivation(value: List<Motivation>) = apply { motivation = Optional.of(value) }
 
-        fun getPersonalInfo(): PersonalInfo = personal.get()
-        fun getEducation(): Education? = education.getOrNull()
-        fun getExperience(): Experience = experience.get()
-        fun getMotivation(): List<Motivation> = motivation.get()
-
         fun build(): Application {
             return try {
                 Application(
@@ -37,7 +32,7 @@ class Application(
                     motivation.get()
                 )
             } catch (e: NoSuchElementException) {
-                throw ApplicationIsNotFilled(
+                throw ApplicationIsNotFilledException(
                     """Some fields aren't filled in application
                         personal = {${personal.getOrNull()}}
                         experience = {${experience.getOrNull()}}
@@ -49,4 +44,4 @@ class Application(
     }
 }
 
-class ApplicationIsNotFilled(msg: String) : Throwable(msg)
+class ApplicationIsNotFilledException(msg: String) : Exception(msg)

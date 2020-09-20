@@ -4,6 +4,7 @@ import com.example.progressfeaturesample.domain.EducationType
 import com.example.progressfeaturesample.domain.PersonalInfo
 import com.example.progressfeaturesample.interactors.application.steps.ApplicationStepOutData
 import com.example.progressfeaturesample.interactors.application.steps.ApplicationSteps
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationSteps.*
 import com.example.progressfeaturesample.interactors.application.steps.PersonalInfoStepOutData
 import com.example.progressfeaturesample.interactors.common.Scenario
 import com.example.progressfeaturesample.utils.addAfter
@@ -17,10 +18,10 @@ import com.example.progressfeaturesample.utils.replaceWith
 class ApplicationScenario : Scenario<ApplicationSteps, ApplicationStepOutData> {
 
     override val steps: MutableList<ApplicationSteps> = mutableListOf(
-        ApplicationSteps.PERSONAL_INFO,
-        ApplicationSteps.EDUCATION,
-        ApplicationSteps.EXPERIENCE,
-        ApplicationSteps.MOTIVATION
+        PERSONAL_INFO,
+        EDUCATION,
+        EXPERIENCE,
+        MOTIVATION
     )
 
     /**
@@ -48,12 +49,12 @@ class ApplicationScenario : Scenario<ApplicationSteps, ApplicationStepOutData> {
     private fun applyEducationToScenario(education: EducationType) {
         when {
             education.isNoEducation() -> {
-                steps.removeElem { it === ApplicationSteps.EDUCATION }
+                steps.removeElem { it === EDUCATION }
             }
-            !steps.contains(ApplicationSteps.EDUCATION) -> {
+            !steps.contains(EDUCATION) -> {
                 steps.addAfter(
-                    { it == ApplicationSteps.PERSONAL_INFO },
-                    ApplicationSteps.EDUCATION
+                    { it == PERSONAL_INFO },
+                    EDUCATION
                 )
             }
         }
@@ -66,13 +67,13 @@ class ApplicationScenario : Scenario<ApplicationSteps, ApplicationStepOutData> {
     private fun applyExperienceToScenario(hasWorkingExperience: Boolean) {
         if (hasWorkingExperience) {
             steps.replaceWith(
-                { it == ApplicationSteps.ABOUT_ME },
-                ApplicationSteps.EXPERIENCE
+                { it == ABOUT_ME },
+                EXPERIENCE
             )
         } else {
             steps.replaceWith(
-                { it == ApplicationSteps.EXPERIENCE },
-                ApplicationSteps.ABOUT_ME
+                { it == EXPERIENCE },
+                ABOUT_ME
             )
         }
     }

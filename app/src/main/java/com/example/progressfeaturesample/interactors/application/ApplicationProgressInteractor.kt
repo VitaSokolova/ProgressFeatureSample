@@ -3,6 +3,7 @@ package com.example.progressfeaturesample.interactors.application
 import com.example.progressfeaturesample.domain.Application
 import com.example.progressfeaturesample.interactors.application.steps.*
 import com.example.progressfeaturesample.interactors.application.steps.ApplicationStepData.*
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationSteps.*
 import com.example.progressfeaturesample.interactors.common.ProgressInteractor
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -11,6 +12,7 @@ import javax.inject.Inject
 
 /**
  * Интерактор фичи подачи заявления
+ * @param dataRepository репозиторий, оборачивающий работу с сетью
  */
 @PerApplication
 class ApplicationProgressInteractor @Inject constructor(
@@ -24,11 +26,11 @@ class ApplicationProgressInteractor @Inject constructor(
     private val draft: ApplicationDraft = ApplicationDraft()
 
     fun applyDraft(draft: ApplicationDraft) {
-        this.draft.clear()
-        this.draft.outDataMap.putAll(draft.outDataMap)
+        this.draft.apply {
+            clear()
+            outDataMap.putAll(draft.outDataMap)
+        }
     }
-
-    fun getDraft(): ApplicationDraft = draft
 
     override fun closeProgressFeature() {
         super.closeProgressFeature()
@@ -40,34 +42,33 @@ class ApplicationProgressInteractor @Inject constructor(
      */
     override fun resolveStepInData(step: ApplicationSteps): Single<ApplicationStepData> {
         return when (step) {
-            ApplicationSteps.PERSONAL_INFO -> Single.just(
+            PERSONAL_INFO -> Single.just(
                 PersonalInfoStepData(
                     draft.getPersonalInfoOutData()
                 )
             )
-            ApplicationSteps.EDUCATION -> getDataForEducationStep().map { stepInData ->
+            EDUCATION -> getDataForEducationStep().map { stepInData ->
                 EducationStepData(
                     stepInData,
                     draft.getEducationStepOutData()
                 )
             }
-            ApplicationSteps.EXPERIENCE -> Single.just(
+            EXPERIENCE -> Single.just(
                 ExperienceStepData(
                     draft.getExperienceStepOutData()
                 )
             )
-            ApplicationSteps.ABOUT_ME -> Single.just(
+            ABOUT_ME -> Single.just(
                 AboutMeStepData(
                     draft.getAboutMeStepOutData()
                 )
             )
-            ApplicationSteps.MOTIVATION -> dataRepository.loadMotivationVariants()
-                .map { reasonsList ->
-                    MotivationStepData(
-                        stepInData = MotivationStepInData(reasonsList),
-                        stepOutData = draft.getMotivationStepOutData()
-                    )
-                }
+            MOTIVATION -> dataRepository.loadMotivationVariants().map { reasonsList ->
+                MotivationStepData(
+                    stepInData = MotivationStepInData(reasonsList),
+                    stepOutData = draft.getMotivationStepOutData()
+                )
+            }
         }
     }
 
@@ -78,34 +79,37 @@ class ApplicationProgressInteractor @Inject constructor(
         return Completable.fromAction {
             when (stepData) {
                 is PersonalInfoStepOutData -> {
-                    draft.outDataMap[ApplicationSteps.PERSONAL_INFO] = stepData
+                    draft.outDataMap[PERSONAL_INFO] = stepData
                 }
                 is EducationStepOutData -> {
-                    draft.outDataMap[ApplicationSteps.EDUCATION] = stepData
+                    draft.outDataMap[EDUCATION] = stepData
                 }
                 is ExperienceStepOutData -> {
-                    draft.outDataMap[ApplicationSteps.EXPERIENCE] = stepData
+                    draft.outDataMap[EXPERIENCE] = stepData
                 }
                 is AboutMeStepOutData -> {
-                    draft.outDataMap[ApplicationSteps.ABOUT_ME] = stepData
+                    draft.outDataMap[ABOUT_ME] = stepData
                 }
                 is MotivationStepOutData -> {
-                    draft.outDataMap[ApplicationSteps.MOTIVATION] = stepData
+                    draft.outDataMap[MOTIVATION] = stepData
                 }
             }
         }
     }
 
+    /**
+     * Отправка заявки
+     */
     fun sendApplication(): Completable {
-        // билдер, для построения заявки
-        val builder = Application.Builder()
-        draft.outDataMap.values.forEach { data ->
-            when (data) {
-                is PersonalInfoStepOutData -> builder.personalInfo(data.info)
-                is EducationStepOutData -> builder.education(data.education)
-                is ExperienceStepOutData -> builder.experience(data.experience)
-                is AboutMeStepOutData -> builder.experience(data.info)
-                is MotivationStepOutData -> builder.motivation(data.motivation)
+        val builder = Application.Builder().apply {
+            draft.outDataMap.values.forEach { data ->
+                when (data) {
+                    is PersonalInfoStepOutData -> personalInfo(data.info)
+                    is EducationStepOutData -> education(data.education)
+                    is ExperienceStepOutData -> experience(data.experience)
+                    is AboutMeStepOutData -> experience(data.info)
+                    is MotivationStepOutData -> motivation(data.motivation)
+                }
             }
         }
         return dataRepository.loadApplication(builder.build())
