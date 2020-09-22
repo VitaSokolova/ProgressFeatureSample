@@ -78,8 +78,8 @@ class MotivationFragmentPresenter @Inject constructor(
             progressInteractor.sendApplication(),
             {
                 // реакция на успешную отправку
-                bm.applicationSendingState.accept(LoadStatus.NORMAL)
                 activityNavigator.start(ThankYouRoute())
+                bm.applicationSendingState.accept(LoadStatus.NORMAL)
             },
             {
                 bm.applicationSendingState.accept(LoadStatus.ERROR)
