@@ -3,7 +3,7 @@ package com.example.progressfeaturesample.ui.screens.motivation
 import com.example.progressfeaturesample.domain.Motivation
 import com.example.progressfeaturesample.interactors.application.ApplicationProgressInteractor
 import com.example.progressfeaturesample.interactors.application.steps.ApplicationStepData
-import com.example.progressfeaturesample.interactors.application.steps.ApplicationSteps
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationStep
 import com.example.progressfeaturesample.interactors.application.steps.MotivationStepOutData
 import com.example.progressfeaturesample.ui.screens.success.ThankYouRoute
 import com.example.progressfeaturesample.ui.utils.filter
@@ -56,10 +56,10 @@ class MotivationFragmentPresenter @Inject constructor(
         }
 
         subscribeIoHandleError(
-            progressInteractor.getDataForStep(ApplicationSteps.MOTIVATION)
+            progressInteractor.getDataForStep(ApplicationStep.MOTIVATION)
                 .filter<ApplicationStepData.MotivationStepData>(),
             {
-                it.stepOutData?.motivation?.let {
+                it.outData?.motivation?.let {
                     bm.draftCommand.accept(it)
                 }
             },
@@ -92,7 +92,7 @@ class MotivationFragmentPresenter @Inject constructor(
      */
     private fun getStepInputData() {
         subscribeIoHandleError(
-            progressInteractor.getDataForStep(ApplicationSteps.MOTIVATION)
+            progressInteractor.getDataForStep(ApplicationStep.MOTIVATION)
                 .filter<ApplicationStepData.MotivationStepData>()
                 .doOnSubscribe {
                     changeMotivationState(LoadStatus.LOADING)
@@ -101,7 +101,7 @@ class MotivationFragmentPresenter @Inject constructor(
                 val draft = getDraftValues()
                 changeMotivationState(
                     LoadStatus.NORMAL,
-                    it.stepInData.values.map { SelectableData(it, draft.contains(it)) }
+                    it.inData.values.map { SelectableData(it, draft.contains(it)) }
                 )
             },
             {

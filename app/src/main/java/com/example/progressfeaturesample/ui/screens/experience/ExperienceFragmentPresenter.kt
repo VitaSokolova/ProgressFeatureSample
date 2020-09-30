@@ -2,7 +2,7 @@ package com.example.progressfeaturesample.ui.screens.experience
 
 import com.example.progressfeaturesample.interactors.application.ApplicationProgressInteractor
 import com.example.progressfeaturesample.interactors.application.steps.ApplicationStepData
-import com.example.progressfeaturesample.interactors.application.steps.ApplicationSteps
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationStep
 import com.example.progressfeaturesample.interactors.application.steps.ExperienceStepOutData
 import com.example.progressfeaturesample.ui.utils.filter
 import io.reactivex.rxkotlin.withLatestFrom
@@ -58,10 +58,10 @@ class ExperienceFragmentPresenter @Inject constructor(
         }
 
         subscribeIoHandleError(
-            progressInteractor.getDataForStep(ApplicationSteps.EXPERIENCE)
+            progressInteractor.getDataForStep(ApplicationStep.EXPERIENCE)
                 .filter<ApplicationStepData.ExperienceStepData>(),
             {
-                it.stepOutData?.experience?.let { experience ->
+                it.outData?.experience?.let { experience ->
                     bm.draftCommand.accept(experience)
                 }
             },

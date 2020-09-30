@@ -23,8 +23,3 @@ class EducationStepInData(
 class MotivationStepInData(
     val values: List<Motivation>
 ) : ApplicationStepInData()
-
-/**
- * Заглушка, обозначающая, что на вход шагу ничего не нужно
- */
-object EmptyStepInData : ApplicationStepInData()

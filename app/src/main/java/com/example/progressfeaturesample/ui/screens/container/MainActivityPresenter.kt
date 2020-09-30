@@ -2,7 +2,7 @@ package com.example.progressfeaturesample.ui.screens.container
 
 import android.app.FragmentTransaction
 import com.example.progressfeaturesample.interactors.application.ApplicationProgressInteractor
-import com.example.progressfeaturesample.interactors.application.steps.ApplicationSteps
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationStep
 import com.example.progressfeaturesample.ui.screens.about.AboutMeRoute
 import com.example.progressfeaturesample.ui.screens.education.EducationRoute
 import com.example.progressfeaturesample.ui.screens.experience.ExperienceRoute
@@ -39,11 +39,11 @@ class MainActivityPresenter @Inject constructor(
             bm.currentStepCount.observable
         ) bindTo { (stepWithPosition, currentPosition) ->
             val fragmentRoute = when (stepWithPosition.step) {
-                 ApplicationSteps.PERSONAL_INFO -> PersonalInfoRoute()
-                 ApplicationSteps.EDUCATION -> EducationRoute()
-                 ApplicationSteps.EXPERIENCE -> ExperienceRoute()
-                 ApplicationSteps.MOTIVATION -> MotivationRoute()
-                 ApplicationSteps.ABOUT_ME -> AboutMeRoute()
+                 ApplicationStep.PERSONAL_INFO -> PersonalInfoRoute()
+                 ApplicationStep.EDUCATION -> EducationRoute()
+                 ApplicationStep.EXPERIENCE -> ExperienceRoute()
+                 ApplicationStep.MOTIVATION -> MotivationRoute()
+                 ApplicationStep.ABOUT_ME -> AboutMeRoute()
             }
 
             if (stepWithPosition.position > currentPosition.position) {

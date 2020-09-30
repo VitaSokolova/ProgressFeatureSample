@@ -1,13 +1,13 @@
 package com.example.progressfeaturesample.interactors.application.steps
 
-import com.example.progressfeaturesample.interactors.application.steps.ApplicationSteps.*
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationStep.*
 import java.io.Serializable
 
 /**
  * Черновик заявки
  */
 class ApplicationDraft(
-    val outDataMap: MutableMap<ApplicationSteps, ApplicationStepOutData> = mutableMapOf()
+    val outDataMap: MutableMap<ApplicationStep, ApplicationStepOutData> = mutableMapOf()
 ) : Serializable {
     fun getPersonalInfoOutData() = outDataMap[PERSONAL_INFO] as? PersonalInfoStepOutData
     fun getEducationStepOutData() = outDataMap[EDUCATION] as? EducationStepOutData

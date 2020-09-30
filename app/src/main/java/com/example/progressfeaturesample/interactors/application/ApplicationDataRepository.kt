@@ -33,6 +33,6 @@ class ApplicationDataRepository @Inject constructor() {
      * Имитирует финальную отправку заявки
      */
     fun loadApplication(application: Application): Completable {
-        return Completable.fromAction { }.delay(3L, TimeUnit.SECONDS)
+        return Completable.timer(3L, TimeUnit.SECONDS)
     }
 }

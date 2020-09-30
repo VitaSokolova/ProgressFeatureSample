@@ -16,5 +16,5 @@ interface Scenario<S : Step, O : StepOutData> {
      * Внесение изменений в сценарий
      * в зависимости от выходной информации при завершении шага
      */
-    fun completeStep(stepOut: O)
+    fun reactOnStepCompletion(stepOut: O)
 }

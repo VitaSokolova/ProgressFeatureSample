@@ -2,7 +2,7 @@ package com.example.progressfeaturesample.ui.screens.education
 
 import com.example.progressfeaturesample.interactors.application.ApplicationProgressInteractor
 import com.example.progressfeaturesample.interactors.application.steps.ApplicationStepData
-import com.example.progressfeaturesample.interactors.application.steps.ApplicationSteps
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationStep
 import com.example.progressfeaturesample.interactors.application.steps.EducationStepOutData
 import com.example.progressfeaturesample.ui.utils.filter
 import io.reactivex.rxkotlin.withLatestFrom
@@ -60,11 +60,11 @@ class EducationFragmentPresenter @Inject constructor(
 
         //т.к. данные обязаны прийти из предыдущего шага, это быстро и не трубуют доп. запросов
         subscribeIoHandleError(
-            progressInteractor.getDataForStep(ApplicationSteps.EDUCATION)
+            progressInteractor.getDataForStep(ApplicationStep.EDUCATION)
                 .filter<ApplicationStepData.EducationStepData>(),
             {
-                bm.educationTypeState.accept(it.stepInData.educationType)
-                it.stepOutData?.education?.let {
+                bm.educationTypeState.accept(it.inData.educationType)
+                it.outData?.education?.let {
                     bm.draftCommand.accept(it)
                 }
             },

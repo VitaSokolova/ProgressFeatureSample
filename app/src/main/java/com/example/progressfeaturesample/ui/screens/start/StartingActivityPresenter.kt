@@ -32,7 +32,7 @@ class StartingActivityPresenter @Inject constructor(
 
     private fun getDraft(): ApplicationDraft {
         return ApplicationDraft().apply {
-            outDataMap[ApplicationSteps.PERSONAL_INFO] = PersonalInfoStepOutData(
+            outDataMap[ApplicationStep.PERSONAL_INFO] = PersonalInfoStepOutData(
                 PersonalInfo(
                     name = "Вита",
                     surname = "Соколова",
@@ -41,7 +41,7 @@ class StartingActivityPresenter @Inject constructor(
                     hasWorkingExperience = true
                 )
             )
-            outDataMap[ApplicationSteps.EDUCATION] = EducationStepOutData(
+            outDataMap[ApplicationStep.EDUCATION] = EducationStepOutData(
                 Education(
                     place = "ВГУ",
                     faculty = "ФКН",
@@ -51,7 +51,7 @@ class StartingActivityPresenter @Inject constructor(
                     endDate = "2020"
                 )
             )
-            outDataMap[ApplicationSteps.EXPERIENCE] = ExperienceStepOutData(
+            outDataMap[ApplicationStep.EXPERIENCE] = ExperienceStepOutData(
                 WorkingExperience(
                     place = "Surf",
                     position = "Android Team Lead",
@@ -59,7 +59,7 @@ class StartingActivityPresenter @Inject constructor(
                     dateTo = "2020"
                 )
             )
-            outDataMap[ApplicationSteps.MOTIVATION] = MotivationStepOutData(
+            outDataMap[ApplicationStep.MOTIVATION] = MotivationStepOutData(
                 listOf(Motivation("Крутые проекты"))
             )
         }

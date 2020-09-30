@@ -5,7 +5,7 @@ import com.example.progressfeaturesample.interactors.common.step.Step
 /**
  * Шаги в фиче заполнения заявки
  */
-enum class ApplicationSteps : Step {
+enum class ApplicationStep : Step {
     PERSONAL_INFO,  // персональные данные
     EDUCATION,      // образование
     EXPERIENCE,     // опыт работы

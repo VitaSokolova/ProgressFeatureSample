@@ -2,18 +2,21 @@ package com.example.progressfeaturesample.interactors.application.steps
 
 import com.example.progressfeaturesample.interactors.common.step.StepData
 
+/**
+ *  Класс с входными данными для шага + данными из черновика, если они есть
+ */
 sealed class ApplicationStepData : StepData<ApplicationStepInData, ApplicationStepOutData> {
     class PersonalInfoStepData(
-        val stepOutData: PersonalInfoStepOutData?
+        val outData: PersonalInfoStepOutData?
     ) : ApplicationStepData()
 
     class EducationStepData(
-        val stepInData: EducationStepInData,
-        val stepOutData: EducationStepOutData?
+        val inData: EducationStepInData,
+        val outData: EducationStepOutData?
     ) : ApplicationStepData()
 
     class ExperienceStepData(
-        val stepOutData: ExperienceStepOutData?
+        val outData: ExperienceStepOutData?
     ) : ApplicationStepData()
 
     class AboutMeStepData(
@@ -21,7 +24,7 @@ sealed class ApplicationStepData : StepData<ApplicationStepInData, ApplicationSt
     ) : ApplicationStepData()
 
     class MotivationStepData(
-        val stepInData: MotivationStepInData,
-        val stepOutData: MotivationStepOutData?
+        val inData: MotivationStepInData,
+        val outData: MotivationStepOutData?
     ) : ApplicationStepData()
 }

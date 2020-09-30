@@ -3,8 +3,8 @@ package com.example.progressfeaturesample.interactors.application
 import com.example.progressfeaturesample.domain.EducationType
 import com.example.progressfeaturesample.domain.PersonalInfo
 import com.example.progressfeaturesample.interactors.application.steps.ApplicationStepOutData
-import com.example.progressfeaturesample.interactors.application.steps.ApplicationSteps
-import com.example.progressfeaturesample.interactors.application.steps.ApplicationSteps.*
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationStep
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationStep.*
 import com.example.progressfeaturesample.interactors.application.steps.PersonalInfoStepOutData
 import com.example.progressfeaturesample.interactors.common.Scenario
 import com.example.progressfeaturesample.utils.addAfter
@@ -13,11 +13,10 @@ import com.example.progressfeaturesample.utils.replaceWith
 
 /**
  * Класс, описывающий порядок шагов при оформлении заявки
- * Например, выходные данные шага могут влиять на состав шагов и сценарий будет меняться
  */
-class ApplicationScenario : Scenario<ApplicationSteps, ApplicationStepOutData> {
+class ApplicationScenario : Scenario<ApplicationStep, ApplicationStepOutData> {
 
-    override val steps: MutableList<ApplicationSteps> = mutableListOf(
+    override val steps: MutableList<ApplicationStep> = mutableListOf(
         PERSONAL_INFO,
         EDUCATION,
         EXPERIENCE,
@@ -27,7 +26,7 @@ class ApplicationScenario : Scenario<ApplicationSteps, ApplicationStepOutData> {
     /**
      * Внесение изменений в сценарий, в зависимости от выходной информации шага
      */
-    override fun completeStep(stepOut: ApplicationStepOutData) {
+    override fun reactOnStepCompletion(stepOut: ApplicationStepOutData) {
         when (stepOut) {
             is PersonalInfoStepOutData -> {
                 changeScenarioAfterPersonalStep(stepOut.info)

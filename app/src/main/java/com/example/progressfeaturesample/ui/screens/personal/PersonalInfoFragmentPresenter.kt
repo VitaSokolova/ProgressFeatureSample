@@ -3,7 +3,7 @@ package com.example.progressfeaturesample.ui.screens.personal
 import com.example.progressfeaturesample.domain.PersonalInfo
 import com.example.progressfeaturesample.interactors.application.ApplicationProgressInteractor
 import com.example.progressfeaturesample.interactors.application.steps.ApplicationStepData
-import com.example.progressfeaturesample.interactors.application.steps.ApplicationSteps
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationStep
 import com.example.progressfeaturesample.interactors.application.steps.PersonalInfoStepOutData
 import com.example.progressfeaturesample.ui.utils.filter
 import io.reactivex.Observable
@@ -57,10 +57,10 @@ class PersonalInfoFragmentPresenter @Inject constructor(
 
     private fun getDataFromDraft() {
         subscribeIoHandleError(
-            progressInteractor.getDataForStep(ApplicationSteps.PERSONAL_INFO)
+            progressInteractor.getDataForStep(ApplicationStep.PERSONAL_INFO)
                 .filter<ApplicationStepData.PersonalInfoStepData>(),
             {
-                it.stepOutData?.let { stepOutData ->
+                it.outData?.let { stepOutData ->
                     bm.draftData.accept(stepOutData)
                 }
             },
