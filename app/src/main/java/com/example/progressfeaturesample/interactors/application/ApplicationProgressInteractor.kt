@@ -38,23 +38,23 @@ class ApplicationProgressInteractor @Inject constructor(
         return when (step) {
             PERSONAL_INFO -> Single.just(
                 PersonalInfoStepData(
-                    draft.getPersonalInfoOutData()
+                    outData = draft.getPersonalInfoOutData()
                 )
             )
-            EDUCATION -> getDataForEducationStep().map { stepInData ->
+            EDUCATION -> getDataForEducationStep().map {
                 EducationStepData(
-                    stepInData,
-                    draft.getEducationStepOutData()
+                    inData = it,
+                    outData = draft.getEducationStepOutData()
                 )
             }
             EXPERIENCE -> Single.just(
                 ExperienceStepData(
-                    draft.getExperienceStepOutData()
+                    outData = draft.getExperienceStepOutData()
                 )
             )
             ABOUT_ME -> Single.just(
                 AboutMeStepData(
-                    draft.getAboutMeStepOutData()
+                    outData = draft.getAboutMeStepOutData()
                 )
             )
             MOTIVATION -> dataRepository.loadMotivationVariants().map { reasonsList ->
@@ -122,7 +122,7 @@ class ApplicationProgressInteractor @Inject constructor(
     private fun getDataForEducationStep(): Single<EducationStepInData> {
         return Single.just(
             EducationStepInData(
-                draft.getPersonalInfoOutData()?.info?.education
+                draft.getPersonalInfoOutData()?.info?.educationType
                     ?: error("Not enough data or Education step")
             )
         )

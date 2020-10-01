@@ -7,6 +7,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 
+const val UNKNOWN_STEP_INDEX = -1
 /**
  * Базовый класс для интеракторов пошаговых фич
  * S - входной шаг
@@ -73,7 +74,7 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData> {
     fun completeStep(stepOut: O): Completable {
         return saveStepOutData(stepOut).doOnComplete {
             scenario.reactOnStepCompletion(stepOut)
-            if (currentStepIndex !in listOf(scenario.steps.lastIndex, -1)) {
+            if (currentStepIndex !in listOf(scenario.steps.lastIndex, UNKNOWN_STEP_INDEX)) {
                 currentStepIndex += 1
             }
         }
@@ -83,7 +84,7 @@ abstract class ProgressInteractor<S : Step, I : StepInData, O : StepOutData> {
      * Переход на предыдущий шаг
      */
     fun toPreviousStep() {
-        if (currentStepIndex !in listOf(0, -1)) {
+        if (currentStepIndex !in listOf(0, UNKNOWN_STEP_INDEX)) {
             currentStepIndex -= 1
         }
     }

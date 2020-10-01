@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.MaterialComponents.Chip.Choice"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/chip_bkg_color_selector"
+    android:textAlignment="center"
+    android:textAppearance="@style/RobotoRegular.14"
+    android:textColor="@color/chip_txt_color_selector"
+    app:checkedIconEnabled="false"
+    app:chipCornerRadius="@dimen/dp16"
+    app:rippleColor="@color/colorAccentVeryLight"
+    tools:text="Мотивация"
+    tools:theme="@style/AppTheme" />

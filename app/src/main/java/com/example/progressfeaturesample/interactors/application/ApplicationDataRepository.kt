@@ -20,10 +20,10 @@ class ApplicationDataRepository @Inject constructor() {
     fun loadMotivationVariants(): Single<List<Motivation>> =
         Single.just(
             listOf(
-                Motivation("Зарплата"),
-                Motivation("Локация"),
-                Motivation("Бесплатная еда"),
-                Motivation("Крутые проекты")
+                Motivation("Зарплата "),
+                Motivation("Локация "),
+                Motivation("Бесплатная еда "),
+                Motivation("Крутые проекты ")
             )
         ).delay(
             1L, TimeUnit.SECONDS

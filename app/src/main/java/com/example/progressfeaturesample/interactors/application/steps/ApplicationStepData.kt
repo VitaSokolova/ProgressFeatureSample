@@ -20,7 +20,7 @@ sealed class ApplicationStepData : StepData<ApplicationStepInData, ApplicationSt
     ) : ApplicationStepData()
 
     class AboutMeStepData(
-        val stepOutData: AboutMeStepOutData?
+        val outData: AboutMeStepOutData?
     ) : ApplicationStepData()
 
     class MotivationStepData(

@@ -80,7 +80,7 @@ class PersonalInfoFragmentView : BaseRxFragmentView() {
             surname_et.setText(it.info.surname)
             experience_cb.isChecked = it.info.hasWorkingExperience
             name_et.setText(it.info.name)
-            spinner.setSelection(EducationType.values().indexOf(it.info.education))
+            spinner.setSelection(EducationType.values().indexOf(it.info.educationType))
         }
     }
 }

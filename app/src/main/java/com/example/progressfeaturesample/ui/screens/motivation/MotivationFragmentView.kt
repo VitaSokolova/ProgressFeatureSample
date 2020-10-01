@@ -69,7 +69,8 @@ class MotivationFragmentView : BaseRxFragmentView() {
         if (chips_group.children.count() == 0) {
             chips_group.removeAllViews()
             data.forEach {
-                val chip = requireContext().createChip(
+                val chip = chips_group.createChip(
+                    layoutInflater = layoutInflater,
                     tag = it.data.text,
                     text = it.data.text,
                     isChecked = it.isSelected

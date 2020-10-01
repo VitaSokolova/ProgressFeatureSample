@@ -10,6 +10,6 @@ class PersonalInfo(
     val name: String,
     val surname: String,
     val birthday: Date,
-    val education: EducationType,
+    val educationType: EducationType,
     val hasWorkingExperience: Boolean
 ) : Serializable

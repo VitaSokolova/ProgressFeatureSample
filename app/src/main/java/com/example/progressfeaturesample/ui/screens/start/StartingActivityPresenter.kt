@@ -37,7 +37,7 @@ class StartingActivityPresenter @Inject constructor(
                     name = "Вита",
                     surname = "Соколова",
                     birthday = Date(),
-                    education = EducationType.HIGHER,
+                    educationType = EducationType.HIGHER,
                     hasWorkingExperience = true
                 )
             )

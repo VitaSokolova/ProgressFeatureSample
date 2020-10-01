@@ -2,9 +2,9 @@ package com.example.progressfeaturesample.interactors.application
 
 import com.example.progressfeaturesample.domain.EducationType
 import com.example.progressfeaturesample.domain.PersonalInfo
-import com.example.progressfeaturesample.interactors.application.steps.ApplicationStepOutData
 import com.example.progressfeaturesample.interactors.application.steps.ApplicationStep
 import com.example.progressfeaturesample.interactors.application.steps.ApplicationStep.*
+import com.example.progressfeaturesample.interactors.application.steps.ApplicationStepOutData
 import com.example.progressfeaturesample.interactors.application.steps.PersonalInfoStepOutData
 import com.example.progressfeaturesample.interactors.common.Scenario
 import com.example.progressfeaturesample.utils.addAfter
@@ -39,7 +39,7 @@ class ApplicationScenario : Scenario<ApplicationStep, ApplicationStepOutData> {
      */
     private fun changeScenarioAfterPersonalStep(personalInfo: PersonalInfo) {
         applyExperienceToScenario(personalInfo.hasWorkingExperience)
-        applyEducationToScenario(personalInfo.education)
+        applyEducationToScenario(personalInfo.educationType)
     }
 
     /**
@@ -66,13 +66,13 @@ class ApplicationScenario : Scenario<ApplicationStep, ApplicationStepOutData> {
     private fun applyExperienceToScenario(hasWorkingExperience: Boolean) {
         if (hasWorkingExperience) {
             steps.replaceWith(
-                { it == ABOUT_ME },
-                EXPERIENCE
+                condition = { it == ABOUT_ME },
+                newElem = EXPERIENCE
             )
         } else {
             steps.replaceWith(
-                { it == EXPERIENCE },
-                ABOUT_ME
+                condition = { it == EXPERIENCE },
+                newElem = ABOUT_ME
             )
         }
     }
