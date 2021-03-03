@@ -1,5 +1,6 @@
-package com.example.progressfeaturesample.interactors.application.steps
+package com.example.progressfeaturesample.interactors.application
 
+import com.example.progressfeaturesample.interactors.application.steps.*
 import com.example.progressfeaturesample.interactors.application.steps.ApplicationStep.*
 import java.io.Serializable
 

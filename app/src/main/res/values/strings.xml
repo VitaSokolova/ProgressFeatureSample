@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ProgressFeatureSample</string>
+    <string name="app_name" translatable="false">ProgressFeatureSample</string>
     <string name="task_name" translatable="false">.progress_flow</string>
 
     <string-array name="education_array">
@@ -36,6 +36,7 @@
     <string name="experience_start_txt">Начало работы</string>
     <string name="experience_end_txt">Окончание работы</string>
     <string name="experience_add_txt">Добавить ещё одно место</string>
+    <string name="experience_to_mush_for_sample_toast_txt">Это уже слишком для семпла!</string>
 
     <string name="about_me_hint">Обо мне</string>
     <string name="about_me_header_text">Расскажите немного о себе и любом релевантном опыте</string>

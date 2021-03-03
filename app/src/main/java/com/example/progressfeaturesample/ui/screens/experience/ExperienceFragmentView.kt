@@ -43,7 +43,7 @@ class ExperienceFragmentView : BaseRxFragmentView() {
         experience_add_one_more_tv.setOnClickListener {
             val toast = Toast.makeText(
                 requireContext(),
-                "Это уже слишком для семпла'!",
+                resources.getString(R.string.experience_to_mush_for_sample_toast_txt),
                 Toast.LENGTH_SHORT
             )
             toast.show()

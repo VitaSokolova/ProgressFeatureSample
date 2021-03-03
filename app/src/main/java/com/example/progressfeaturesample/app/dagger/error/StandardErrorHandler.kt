@@ -11,6 +11,6 @@ import javax.inject.Inject
 class StandardErrorHandler @Inject constructor() : ErrorHandler {
 
     override fun handleError(err: Throwable?) {
-     // обавить обработку ошибок
+     // todo: добавить обработку ошибок
     }
 }

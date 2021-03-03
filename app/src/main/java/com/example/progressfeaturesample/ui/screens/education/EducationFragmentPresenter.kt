@@ -28,7 +28,7 @@ class EducationFragmentPresenter @Inject constructor(
             subscribeIoHandleError(
                 progressInteractor.completeStep(EducationStepOutData(education))
             ) {
-                // обработка успешного завершения
+                // react on step completion if necessary
             }
         }
 

@@ -24,7 +24,8 @@ class ApplicationProgressInteractor @Inject constructor(
     override val scenario: Scenario<ApplicationStep, ApplicationStepOutData> = ApplicationScenario()
 
     // черновик заявки
-    private val draft: ApplicationDraft = ApplicationDraft()
+    private val draft: ApplicationDraft =
+        ApplicationDraft()
 
     override fun closeProgressFeature() {
         super.closeProgressFeature()

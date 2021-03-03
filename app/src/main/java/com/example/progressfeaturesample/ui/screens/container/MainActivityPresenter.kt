@@ -23,7 +23,6 @@ import javax.inject.Inject
 class MainActivityPresenter @Inject constructor(
     private val bm: MainBindModel,
     private val progressInteractor: ApplicationProgressInteractor,
-    private val activityNavigator: ActivityNavigator,
     private val fragmentNavigator: FragmentNavigator,
     private val route: MainRoute,
     basePresenterDependency: BasePresenterDependency
@@ -34,16 +33,20 @@ class MainActivityPresenter @Inject constructor(
             progressInteractor.applyDraft(it)
         }
         progressInteractor.initProgressFeature()
+        observeStepChanging()
+        observeUiActions()
+    }
 
+    private fun observeStepChanging() {
         progressInteractor.stepChangeObservable.withLatestFrom(
             bm.currentStepCount.observable
         ) bindTo { (stepWithPosition, currentPosition) ->
             val fragmentRoute = when (stepWithPosition.step) {
-                 ApplicationStep.PERSONAL_INFO -> PersonalInfoRoute()
-                 ApplicationStep.EDUCATION -> EducationRoute()
-                 ApplicationStep.EXPERIENCE -> ExperienceRoute()
-                 ApplicationStep.MOTIVATION -> MotivationRoute()
-                 ApplicationStep.ABOUT_ME -> AboutMeRoute()
+                ApplicationStep.PERSONAL_INFO -> PersonalInfoRoute()
+                ApplicationStep.EDUCATION -> EducationRoute()
+                ApplicationStep.EXPERIENCE -> ExperienceRoute()
+                ApplicationStep.MOTIVATION -> MotivationRoute()
+                ApplicationStep.ABOUT_ME -> AboutMeRoute()
             }
 
             if (stepWithPosition.position > currentPosition.position) {
@@ -60,7 +63,9 @@ class MainActivityPresenter @Inject constructor(
                 )
             )
         }
+    }
 
+    private fun observeUiActions() {
         bm.onBackPressedClicked.observable.withLatestFrom(
             bm.currentStepCount.observable
         ) bindTo { (_, step) ->

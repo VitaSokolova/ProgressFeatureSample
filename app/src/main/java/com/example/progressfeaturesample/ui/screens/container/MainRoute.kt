@@ -2,7 +2,7 @@ package com.example.progressfeaturesample.ui.screens.container
 
 import android.content.Context
 import android.content.Intent
-import com.example.progressfeaturesample.interactors.application.steps.ApplicationDraft
+import com.example.progressfeaturesample.interactors.application.ApplicationDraft
 import ru.surfstudio.android.core.ui.navigation.Route
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithParamsRoute
 

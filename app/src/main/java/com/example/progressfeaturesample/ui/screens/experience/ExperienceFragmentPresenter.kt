@@ -28,9 +28,10 @@ class ExperienceFragmentPresenter @Inject constructor(
             subscribeIoHandleError(
                 progressInteractor.completeStep(
                     ExperienceStepOutData(experince)
-                ),
-                {}
-            )
+                )
+            ) {
+                // react on step completion if necessary
+            }
         }
 
         bm.placeChangedAction bindTo { placeTxt ->

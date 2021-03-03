@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="new_application_btn">New application</string>
+    <string name="from_draft_btn">From the draft</string>
+    <string name="next_btn">Next</string>
+    <string name="ready_btn">Ready</string>
+
+    <string name="personal_info_name_hint">Name</string>
+    <string name="personal_info_surname_hint">Surname</string>
+    <string name="personal_info_education_hint">Education</string>
+    <string name="personal_info_experience_txt">I have work experience</string>
+
+    <string name="education_txt">Education</string>
+    <string name="education_place_txt">The name of the institution</string>
+    <string name="education_faculty_txt">Faculty</string>
+    <string name="education_specialty_txt">Specialty</string>
+    <string name="education_start_date_txt">Start date</string>
+    <string name="education_end_date_txt">End date</string>
+    <string name="education_others_txt">Others</string>
+    <string name="education_academic_degree_txt">Degree</string>
+
+    <string name="experience_txt">Place of work</string>
+    <string name="experience_company_txt">Name of the organization</string>
+    <string name="experience_position_txt">Position</string>
+    <string name="experience_start_txt">Start date</string>
+    <string name="experience_end_txt">End date</string>
+    <string name="experience_add_txt">Add one more place</string>
+
+    <string name="about_me_hint">About me</string>
+    <string name="about_me_header_text">Tell us a little about yourself and any relevant experience</string>
+
+    <string name="motivation_error_stub_txt">Oops, something went wrong</string>
+
+    <string name="thank_you_txt">Your application has been successfully received.</string>
+    <string name="experience_to_mush_for_sample_toast_txt">This is too much for a sample!</string>
+</resources>

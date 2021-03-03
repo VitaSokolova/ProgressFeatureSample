@@ -1,8 +1,8 @@
 package com.example.progressfeaturesample.ui.screens.about
 
 import com.example.progressfeaturesample.domain.AboutMe
-import com.example.progressfeaturesample.interactors.application.steps.AboutMeStepOutData
 import com.example.progressfeaturesample.interactors.application.ApplicationProgressInteractor
+import com.example.progressfeaturesample.interactors.application.steps.AboutMeStepOutData
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -20,13 +20,15 @@ class AboutMeFragmentPresenter @Inject constructor(
 
     override fun onFirstLoad() {
         bm.onNextPressedAction bindTo {
-            subscribeIoHandleError(progressInteractor.completeStep(
-                AboutMeStepOutData(
-                    AboutMe("I'm breathtaking")
+            subscribeIoHandleError(
+                progressInteractor.completeStep(
+                    AboutMeStepOutData(
+                        AboutMe("I'm breathtaking")
+                    )
                 )
-            ),
-                {}
-            )
+            ) {
+                // react on step completion if necessary
+            }
         }
     }
 }

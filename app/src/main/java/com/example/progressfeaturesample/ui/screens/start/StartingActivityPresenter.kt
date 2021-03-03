@@ -1,6 +1,7 @@
 package com.example.progressfeaturesample.ui.screens.start
 
 import com.example.progressfeaturesample.domain.*
+import com.example.progressfeaturesample.interactors.application.ApplicationDraft
 import com.example.progressfeaturesample.interactors.application.steps.*
 import com.example.progressfeaturesample.ui.screens.container.MainRoute
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
@@ -31,7 +32,8 @@ class StartingActivityPresenter @Inject constructor(
     }
 
     private fun getDraft(): ApplicationDraft {
-        return ApplicationDraft().apply {
+        return ApplicationDraft()
+            .apply {
             outDataMap[ApplicationStep.PERSONAL_INFO] = PersonalInfoStepOutData(
                 PersonalInfo(
                     name = "Вита",

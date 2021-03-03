@@ -75,7 +75,7 @@ class MotivationFragmentView : BaseRxFragmentView() {
                     text = it.data.text,
                     isChecked = it.isSelected
                 )
-                chip.setOnCheckedChangeListener { buttonView, isChecked ->
+                chip.setOnCheckedChangeListener { _, isChecked ->
                     bm.motivationCheckedAction.accept(it.data to isChecked)
                 }
                 chips_group.addView(chip)
